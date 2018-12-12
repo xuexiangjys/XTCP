@@ -1,0 +1,1 @@
+include ':app', ':xtcp_runtime', ':xtcp_annotation', ':xtcp_compiler'

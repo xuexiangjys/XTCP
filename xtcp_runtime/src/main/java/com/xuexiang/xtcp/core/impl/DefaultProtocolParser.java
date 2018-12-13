@@ -25,6 +25,8 @@ public class DefaultProtocolParser implements IProtocolParser {
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
         return 0;
     }
@@ -37,17 +39,24 @@ public class DefaultProtocolParser implements IProtocolParser {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
         }
         return new byte[0];
     }
 
     @Override
-    public void byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode storageMode) {
+    public boolean byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         try {
-            ParserUtils.byte2ProtoBody(obj, bytes, index, tailLength, storageMode);
+            return ParserUtils.byte2ProtoBody(obj, bytes, index, tailLength, storageMode);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
+        return false;
     }
 
 

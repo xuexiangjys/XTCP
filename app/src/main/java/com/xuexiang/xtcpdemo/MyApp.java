@@ -14,8 +14,12 @@ import com.xuexiang.xtcp.AppProtocolCenter;
 import com.xuexiang.xtcp.AppProtocolFieldCenter;
 import com.xuexiang.xtcp.XTCP;
 import com.xuexiang.xtcp.XTCPProtocolFieldCenter;
+import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.core.XProtocolCenter;
-import com.xuexiang.xtcp.core.entity.ArrayItem;
+import com.xuexiang.xtcp.core.entity.IntArray;
+import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.utils.ConvertUtils;
+import com.xuexiang.xtcpdemo.protocol.SettingRequest;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -70,8 +74,17 @@ public class MyApp extends Application {
                 .setIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance());
 
         Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x12).toString());
-        Log.e("xuexiang", Arrays.toString(XProtocolCenter.getInstance().getProtocolFields(ArrayItem.class.getName())));
 
+        Log.e("xuexiang", Arrays.toString(XProtocolCenter.getInstance().getProtocolFields(IntArray.class.getName())));
+
+        SettingRequest request = new SettingRequest().setList(11,22,33);
+        byte[] bytes = request.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
+
+        SettingRequest request1 = new SettingRequest();
+        request1.byte2proto(bytes, 0, 0, StorageMode.Default);
+
+        Log.e("xuexiang", Arrays.toString(request1.getList()));
 
     }
 }

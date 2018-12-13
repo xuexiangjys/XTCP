@@ -2,12 +2,12 @@ package com.xuexiang.xtcp.core;
 
 import android.support.annotation.NonNull;
 
-import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.model.IProtocolCenter;
 import com.xuexiang.xtcp.model.IProtocolFieldCenter;
 import com.xuexiang.xtcp.model.ProtocolFieldInfo;
 import com.xuexiang.xtcp.model.ProtocolInfo;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -152,5 +152,25 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     @Override
     public Map<String, ProtocolFieldInfo> getClass2Fields() {
         return mClass2Fields;
+    }
+
+
+    /**
+     * 根据类名获取协议字段
+     *
+     * @param cls
+     * @return
+     */
+    public Field[] getProtocolFields(@NonNull Class<?> cls) throws NoSuchFieldException {
+        Field[] fields = null;
+        String[] fieldNames = getProtocolFields(cls.getCanonicalName());
+
+        if (fieldNames != null && fieldNames.length > 0) {
+            fields = new Field[fieldNames.length];
+            for (int i = 0; i < fieldNames.length; i++) {
+                fields[i] = cls.getDeclaredField(fieldNames[i]);
+            }
+        }
+        return fields;
     }
 }

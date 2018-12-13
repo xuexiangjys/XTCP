@@ -38,7 +38,7 @@ public interface IProtocolParser {
      * @param tailLength  消息尾的长度[和index一起决定了数据解析的范围]
      * @param storageMode 数据的存储形式
      */
-    void byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode storageMode);
+    boolean byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode storageMode);
 
 
 }

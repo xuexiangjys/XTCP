@@ -23,7 +23,7 @@ public class XProtocolItem implements IProtocolItem {
     }
 
     @Override
-    public void byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
-        _XTCP.getIProtocolParser().byte2ProtoBody(this, bytes, index, tailLength, storageMode);
+    public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
+        return _XTCP.getIProtocolParser().byte2ProtoBody(this, bytes, index, tailLength, storageMode);
     }
 }

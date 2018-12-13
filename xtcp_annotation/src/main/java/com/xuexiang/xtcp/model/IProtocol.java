@@ -25,8 +25,8 @@ public interface IProtocol {
      * @param index       起始字节
      * @param tailLength  消息尾的长度[和index一起决定了数据解析的范围]
      * @param storageMode 存储形式
-     * @return
+     * @return 是否解析成功
      */
-    void byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode);
+    boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode);
 
 }

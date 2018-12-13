@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.annotation.Protocol;
 import com.xuexiang.xtcp.annotation.ProtocolField;
+import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IArrayItem;
+import com.xuexiang.xtcp.model.IProtocol;
 import com.xuexiang.xtcp.model.IProtocolItem;
 
 import java.io.UnsupportedEncodingException;
@@ -33,10 +35,10 @@ public final class ParserUtils {
      * @param obj 协议消息体， 类需要被@Protocol修饰
      * @return
      */
-    public static int calculateProtocolLength(@NonNull Object obj) throws IllegalAccessException, UnsupportedEncodingException {
+    public static int calculateProtocolLength(@NonNull Object obj) throws IllegalAccessException, UnsupportedEncodingException, NoSuchFieldException {
         int length = 0;
         Class<?> classType = obj.getClass();
-        Field[] fields = classType.getDeclaredFields();
+        Field[] fields = XProtocolCenter.getInstance().getProtocolFields(classType);
 
         ProtocolField protocolField;
         Class<?> fieldType;
@@ -52,30 +54,30 @@ public final class ParserUtils {
             if (protocolField.length() > 0) {
                 length += protocolField.length();
             } else {
-                if (byte.class.equals(fieldType)) {
+                if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
                     length += 1;
-                } else if (short.class.equals(fieldType)) {
+                } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, 2);
-                } else if (int.class.equals(fieldType)) {
+                } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, 4);
-                } else if (long.class.equals(fieldType)) {
+                } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, 8);
-                } else if (byte[].class.equals(fieldType)) {
+                } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((byte[]) data).length;
                     }
-                } else if (short[].class.equals(fieldType)) {
+                } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((short[]) data).length * getFieldLength(protocolField, 2);
                     }
-                } else if (int[].class.equals(fieldType)) {
+                } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((int[]) data).length * getFieldLength(protocolField, 4);
                     }
-                } else if (long[].class.equals(fieldType)) {
+                } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((long[]) data).length * getFieldLength(protocolField, 8);
@@ -112,13 +114,14 @@ public final class ParserUtils {
      * @param bytes      数据集合[整个消息体数据，包含头和尾]
      * @param index      需要开始解析的索引
      * @param tailLength 消息尾的长度[和index一起决定了数据解析的范围]
+     * @return 是否解析成功
      */
-    public static void byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode protocolMode) throws IllegalAccessException {
+    public static boolean byte2ProtoBody(@NonNull Object obj, byte[] bytes, int index, int tailLength, StorageMode protocolMode) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Class<?> classType = obj.getClass();
 
-        Field[] fields = classType.getDeclaredFields();
+        Field[] fields = XProtocolCenter.getInstance().getProtocolFields(classType);
         if (fields == null) {
-            return;
+            return false;
         }
 
         if (protocolMode == null) {
@@ -133,7 +136,7 @@ public final class ParserUtils {
         for (Field field : fields) {
             field.setAccessible(true);
             if (bytes.length - index - tailLength <= 0) { //剩余长度已不足以读取，直接结束
-                break;
+                return false;
             }
 
             protocolField = field.getAnnotation(ProtocolField.class);
@@ -161,12 +164,18 @@ public final class ParserUtils {
                 field.set(obj, ConvertUtils.bytesToLong(mode, bytes, offset, length));
                 offset += length;
             } else if (IArrayItem.class.isAssignableFrom(fieldType)) {
-
-
+                IArrayItem arrayItem = (IArrayItem) fieldType.newInstance();
+                length = arrayItem.fillArrayLength(bytes, offset, mode); //填充数组长度字段
+                offset += length;
+                if (arrayItem.byte2proto(bytes, offset, tailLength, mode)) {
+                    field.set(obj, arrayItem);
+                    offset += arrayItem.getProtocolLength() - length;
+                } else {
+                    return false;
+                }
             }
-
-
         }
+        return true;
     }
 
     /**
@@ -175,11 +184,11 @@ public final class ParserUtils {
      * @param obj 消息对象, 类需要被@Protocol修饰
      * @return
      */
-    public static byte[] protoBody2Byte(@NonNull Object obj, StorageMode protocolMode) throws UnsupportedEncodingException, IllegalAccessException {
+    public static byte[] protoBody2Byte(@NonNull Object obj, StorageMode protocolMode) throws UnsupportedEncodingException, IllegalAccessException, NoSuchFieldException {
         byte[] res = new byte[0];
 
         Class<?> classType = obj.getClass();
-        Field[] fields = classType.getDeclaredFields();
+        Field[] fields = XProtocolCenter.getInstance().getProtocolFields(classType);
         if (fields == null) {
             return res;
         }
@@ -256,15 +265,15 @@ public final class ParserUtils {
                 byte[] tmp = ((String) value).getBytes(protocolField.charset());
                 System.arraycopy(tmp, 0, res, offset, tmp.length);
                 offset += tmp.length;
-            } else if (IProtocolItem.class.isAssignableFrom(fieldType)) {
-                IProtocolItem item = (IProtocolItem) value;
+            } else if (IProtocol.class.isAssignableFrom(fieldType)) {
+                IProtocol item = (IProtocol) value;
                 byte[] tmp = item.proto2byte(mode);
                 System.arraycopy(tmp, 0, res, offset, tmp.length);
                 offset += tmp.length;
-            } else if (IProtocolItem[].class.isAssignableFrom(fieldType)) {
-                IProtocolItem[] items = (IProtocolItem[]) value;
+            } else if (IProtocol[].class.isAssignableFrom(fieldType)) {
+                IProtocol[] items = (IProtocol[]) value;
                 byte[] tmp;
-                for (IProtocolItem item: items) {
+                for (IProtocol item : items) {
                     tmp = item.proto2byte(mode);
                     System.arraycopy(tmp, 0, res, offset, tmp.length);
                     offset += tmp.length;

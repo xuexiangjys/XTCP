@@ -2,7 +2,6 @@ package com.xuexiang.xtcp;
 
 import com.xuexiang.xtcp.core.IProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
-import com.xuexiang.xtcp.model.IProtocolFieldCenter;
 
 /**
  * @author xuexiang

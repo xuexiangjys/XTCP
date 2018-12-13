@@ -8,7 +8,7 @@ import com.xuexiang.xtcp.enums.StorageMode;
  * @author xuexiang
  * @since 2018/12/11 上午12:40
  */
-public class ProtocolInfo {
+public final class ProtocolInfo {
 
     /**
      * 协议的名称
@@ -100,7 +100,7 @@ public class ProtocolInfo {
      * @param value
      * @return
      */
-    private String byte2HexString(byte value) {
+    public static String byte2HexString(byte value) {
         int v = value & 0xFF;
         String hv = Integer.toHexString(v);
         if (hv.length() < 2) {

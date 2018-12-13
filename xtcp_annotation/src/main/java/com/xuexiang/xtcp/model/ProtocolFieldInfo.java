@@ -6,7 +6,7 @@ package com.xuexiang.xtcp.model;
  * @author xuexiang
  * @since 2018/12/12 下午3:52
  */
-public class ProtocolFieldInfo {
+public final class ProtocolFieldInfo {
 
     private String[] mFields;
 

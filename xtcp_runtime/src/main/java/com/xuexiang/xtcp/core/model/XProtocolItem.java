@@ -1,4 +1,4 @@
-package com.xuexiang.xtcp.core.entity;
+package com.xuexiang.xtcp.core.model;
 
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.enums.StorageMode;

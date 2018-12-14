@@ -4,19 +4,20 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.enums.StorageMode;
-import com.xuexiang.xtcp.utils.ConvertUtils;
+
+import java.nio.charset.Charset;
 
 import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
 
 /**
- * byte数组协议项 <br>
+ * String协议项<br>
  * <p>
  * mLength所占的byte位数为1，可表示的长度范围为【0～255】
  *
  * @author xuexiang
- * @since 2018/12/13 下午11:47
+ * @since 2018/12/14 下午6:37
  */
-public class ByteArray extends AbstractArrayItem {
+public class StringField extends AbstractArrayItem {
 
     /**
      * 集合数组的长度
@@ -33,17 +34,48 @@ public class ByteArray extends AbstractArrayItem {
     /**
      * 空的构造方法不能去除，用于反射构造
      */
-    public ByteArray() {
+    public StringField() {
 
     }
 
-    public ByteArray(@NonNull byte[] data) {
+    public StringField(@NonNull String data) {
         setData(data);
     }
 
+    public StringField(@NonNull String data, String charset) {
+        setData(data, charset);
+    }
+
+    public StringField setData(@NonNull String data) {
+        mData = data.getBytes();
+        if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
+            mData = new byte[MAX_ARRAY_LENGTH];
+            System.arraycopy(data.getBytes(), 0, mData, 0, mData.length);
+        }
+        mLength = mData.length;
+        return this;
+    }
+
+    public StringField setData(@NonNull String data, String charset) {
+        mData = data.getBytes(Charset.forName(charset));
+        if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
+            mData = new byte[MAX_ARRAY_LENGTH];
+            System.arraycopy(data.getBytes(Charset.forName(charset)), 0, mData, 0, mData.length);
+        }
+        mLength = mData.length;
+        return this;
+    }
+
+    public String getData() {
+        return new String(mData);
+    }
+
+    public String getData(String charset) {
+        return new String(mData, Charset.forName(charset));
+    }
 
     @Override
-    public ByteArray setLength(int length) {
+    public StringField setLength(int length) {
         mLength = length;
         return this;
     }
@@ -51,20 +83,6 @@ public class ByteArray extends AbstractArrayItem {
     @Override
     public int getLength() {
         return mLength;
-    }
-
-    public byte[] getData() {
-        return mData;
-    }
-
-    public ByteArray setData(@NonNull byte[] data) {
-        mData = data;
-        if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
-            mData = new byte[MAX_ARRAY_LENGTH];
-            System.arraycopy(data, 0, mData, 0, mData.length);
-        }
-        mLength = mData.length;
-        return this;
     }
 
     @Override
@@ -79,9 +97,9 @@ public class ByteArray extends AbstractArrayItem {
 
     @Override
     public String toString() {
-        return "ByteArray{" +
+        return "StringField{" +
                 "mLength=" + mLength +
-                ", mData=" + ConvertUtils.bytesToHexString(mData) +
+                ", mData=" + getData() +
                 '}';
     }
 }

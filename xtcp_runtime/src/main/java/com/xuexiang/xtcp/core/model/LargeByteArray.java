@@ -7,21 +7,22 @@ import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.MAX_LARGE_ARRAY_LENGTH;
 
 /**
- * byte数组协议项 <br>
+ * 长byte数组协议项<br>
  * <p>
- * mLength所占的byte位数为1，可表示的长度范围为【0～255】
+ * 和ByteArray相比，LargeByteArray中mLength所占的byte位数为2，可表示的长度范围为【0～65535】
  *
  * @author xuexiang
- * @since 2018/12/13 下午11:47
+ * @since 2018/12/14 下午6:44
  */
-public class ByteArray extends AbstractArrayItem {
+public class LargeByteArray extends AbstractArrayItem {
 
     /**
      * 集合数组的长度
      */
-    @ProtocolField(index = 0, length = DEFAULT_ARRAY_LENGTH_SIZE)
+    @ProtocolField(index = 0, length = LARGE_ARRAY_LENGTH_SIZE)
     private int mLength;
 
     /**
@@ -33,17 +34,17 @@ public class ByteArray extends AbstractArrayItem {
     /**
      * 空的构造方法不能去除，用于反射构造
      */
-    public ByteArray() {
+    public LargeByteArray() {
 
     }
 
-    public ByteArray(@NonNull byte[] data) {
+    public LargeByteArray(@NonNull byte[] data) {
         setData(data);
     }
 
 
     @Override
-    public ByteArray setLength(int length) {
+    public LargeByteArray setLength(int length) {
         mLength = length;
         return this;
     }
@@ -57,10 +58,10 @@ public class ByteArray extends AbstractArrayItem {
         return mData;
     }
 
-    public ByteArray setData(@NonNull byte[] data) {
+    public LargeByteArray setData(@NonNull byte[] data) {
         mData = data;
-        if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
-            mData = new byte[MAX_ARRAY_LENGTH];
+        if (mData.length > MAX_LARGE_ARRAY_LENGTH) { //长度不能超过65535
+            mData = new byte[MAX_LARGE_ARRAY_LENGTH];
             System.arraycopy(data, 0, mData, 0, mData.length);
         }
         mLength = mData.length;
@@ -78,8 +79,14 @@ public class ByteArray extends AbstractArrayItem {
     }
 
     @Override
+    public int fillArrayLength(byte[] bytes, int index, StorageMode storageMode) {
+        setLength(ConvertUtils.bytesToInt(storageMode, bytes, index, LARGE_ARRAY_LENGTH_SIZE)); //拿到长度
+        return LARGE_ARRAY_LENGTH_SIZE;
+    }
+
+    @Override
     public String toString() {
-        return "ByteArray{" +
+        return "LargeByteArray{" +
                 "mLength=" + mLength +
                 ", mData=" + ConvertUtils.bytesToHexString(mData) +
                 '}';

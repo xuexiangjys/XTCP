@@ -4,8 +4,10 @@ import com.xuexiang.xtcp.annotation.Protocol;
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.model.ByteArray;
 import com.xuexiang.xtcp.core.model.IntArray;
+import com.xuexiang.xtcp.core.model.LargeString;
 import com.xuexiang.xtcp.core.model.LongArray;
 import com.xuexiang.xtcp.core.model.ShortArray;
+import com.xuexiang.xtcp.core.model.StringField;
 import com.xuexiang.xtcp.core.model.XProtocolItem;
 
 import static com.xuexiang.xtcp.model.ProtocolInfo.byte2HexString;
@@ -33,6 +35,10 @@ public class SettingRequest extends XProtocolItem {
     private IntArray list3;
     @ProtocolField(index = 7)
     private LongArray list4;
+    @ProtocolField(index = 8)
+    private StringField string1;
+    @ProtocolField(index = 9)
+    private LargeString string2;
 
     public SettingRequest() {
 
@@ -78,6 +84,15 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setString1(String s) {
+        this.string1 = new StringField(s);
+        return this;
+    }
+
+    public SettingRequest setString2(String s) {
+        this.string2 = new LargeString(s);
+        return this;
+    }
 
     @Override
     public String toString() {
@@ -90,6 +105,8 @@ public class SettingRequest extends XProtocolItem {
                 ", list2=" + list2 +
                 ", list3=" + list3 +
                 ", list4=" + list4 +
+                ", string1=" + string1 +
+                ", string2=" + string2 +
                 '}';
     }
 }

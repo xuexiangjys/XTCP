@@ -9,12 +9,17 @@ import com.xuexiang.xtcp.utils.ConvertUtils;
 import java.lang.reflect.Field;
 
 /**
- * 抽象的数组类
+ * 抽象的数组类[只是为了解决byte解析时，对应数组数据长度未知的问题]。所有的数组，只要是需要解析的，就必须要实现IArrayItem。
  *
  * @author xuexiang
  * @since 2018/12/13 上午11:28
  */
 public abstract class AbstractArrayItem implements IArrayItem {
+
+    /**
+     * 数组数据的字段名
+     */
+    public static final String FIELD_NAME_DATA = "mData";
 
     @Override
     public int getProtocolLength() {
@@ -33,11 +38,11 @@ public abstract class AbstractArrayItem implements IArrayItem {
      * @param <T>
      * @return
      */
-    public abstract <T extends AbstractArrayItem> T setLength(short length);
+    public abstract <T extends AbstractArrayItem> T setLength(int length);
 
     @Override
     public int fillArrayLength(byte[] bytes, int index, StorageMode storageMode) {
-        setLength(ConvertUtils.bytesToShort(storageMode, bytes, index, DEFAULT_ARRAY_LENGTH_SIZE)); //拿到长度
+        setLength(ConvertUtils.bytesToInt(storageMode, bytes, index, DEFAULT_ARRAY_LENGTH_SIZE)); //拿到长度
         return DEFAULT_ARRAY_LENGTH_SIZE;
     }
 

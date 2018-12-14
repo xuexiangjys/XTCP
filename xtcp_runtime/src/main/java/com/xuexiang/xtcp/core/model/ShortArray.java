@@ -8,8 +8,13 @@ import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.util.Arrays;
 
+import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
+
 /**
- * short数组协议项[只是为了解决byte解析时，对应数组数据长度未知的问题]。所有的数组，只要是需要解析的，就必须要实现IArrayItem。
+ * short数组协议项<br>
+ * <p>
+ * mLength所占的byte位数为1，可表示的长度范围为【0～255】
  *
  * @author xuexiang
  * @since 2018/12/13 下午6:25
@@ -40,7 +45,7 @@ public class ShortArray extends AbstractArrayItem {
     }
 
     @Override
-    public ShortArray setLength(short length) {
+    public ShortArray setLength(int length) {
         mLength = length;
         return this;
     }
@@ -52,7 +57,11 @@ public class ShortArray extends AbstractArrayItem {
 
     public ShortArray setData(@NonNull short[] data) {
         mData = data;
-        mLength = data.length;
+        if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
+            mData = new short[MAX_ARRAY_LENGTH];
+            System.arraycopy(data, 0, mData, 0, mData.length);
+        }
+        mLength = mData.length;
         return this;
     }
 
@@ -63,7 +72,7 @@ public class ShortArray extends AbstractArrayItem {
     @Override
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new short[getLength()];
-        int dataFieldLength = getArrayFieldLength("mData", 2);
+        int dataFieldLength = getArrayFieldLength(FIELD_NAME_DATA, SHORT_MAX_LENGTH);
         if (bytes.length - index - tailLength < mLength * dataFieldLength) { //剩余数据不够解析
             return false;
         }

@@ -12,9 +12,12 @@ import com.xuexiang.xtcp.model.IArrayItem;
 import com.xuexiang.xtcp.model.IProtocol;
 import com.xuexiang.xtcp.model.IProtocolItem;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.nio.charset.Charset;
 
+import static com.xuexiang.xtcp.core.Constants.INT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.LONG_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
 import static com.xuexiang.xtcp.enums.StorageMode.Default;
 
 /**
@@ -35,7 +38,7 @@ public final class ParserUtils {
      * @param obj 协议消息体， 类需要被@Protocol修饰
      * @return
      */
-    public static int calculateProtocolLength(@NonNull Object obj) throws IllegalAccessException, UnsupportedEncodingException, NoSuchFieldException {
+    public static int calculateProtocolLength(@NonNull Object obj) throws IllegalAccessException, NoSuchFieldException {
         int length = 0;
         Class<?> classType = obj.getClass();
         Field[] fields = XProtocolCenter.getInstance().getProtocolFields(classType);
@@ -57,11 +60,11 @@ public final class ParserUtils {
                 if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
                     length += 1;
                 } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
-                    length += getFieldLength(protocolField, 2);
+                    length += getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
-                    length += getFieldLength(protocolField, 4);
+                    length += getFieldLength(protocolField, INT_MAX_LENGTH);
                 } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
-                    length += getFieldLength(protocolField, 8);
+                    length += getFieldLength(protocolField, LONG_MAX_LENGTH);
                 } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
@@ -70,22 +73,22 @@ public final class ParserUtils {
                 } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
-                        length += ((short[]) data).length * getFieldLength(protocolField, 2);
+                        length += ((short[]) data).length * getFieldLength(protocolField, SHORT_MAX_LENGTH);
                     }
                 } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
-                        length += ((int[]) data).length * getFieldLength(protocolField, 4);
+                        length += ((int[]) data).length * getFieldLength(protocolField, INT_MAX_LENGTH);
                     }
                 } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
-                        length += ((long[]) data).length * getFieldLength(protocolField, 8);
+                        length += ((long[]) data).length * getFieldLength(protocolField, LONG_MAX_LENGTH);
                     }
                 } else if (String.class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
-                        length += ((String) data).getBytes(protocolField.charset()).length;
+                        length += ((String) data).getBytes(Charset.forName(protocolField.charset())).length;
                     }
                 } else if (IProtocolItem.class.isAssignableFrom(fieldType)) {
                     Object data = field.get(obj);
@@ -152,15 +155,15 @@ public final class ParserUtils {
                 field.set(obj, bytes[offset]);
                 offset += 1;
             } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 2);
+                length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToShort(mode, bytes, offset, length));
                 offset += length;
             } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 4);
+                length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToInt(mode, bytes, offset, length));
                 offset += length;
             } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 8);
+                length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToLong(mode, bytes, offset, length));
                 offset += length;
             } else if (IArrayItem.class.isAssignableFrom(fieldType)) {
@@ -184,7 +187,7 @@ public final class ParserUtils {
      * @param obj 消息对象, 类需要被@Protocol修饰
      * @return
      */
-    public static byte[] protoBody2Byte(@NonNull Object obj, StorageMode protocolMode) throws UnsupportedEncodingException, IllegalAccessException, NoSuchFieldException {
+    public static byte[] protoBody2Byte(@NonNull Object obj, StorageMode protocolMode) throws IllegalAccessException, NoSuchFieldException {
         byte[] res = new byte[0];
 
         Class<?> classType = obj.getClass();
@@ -225,15 +228,15 @@ public final class ParserUtils {
                 res[offset] = (byte) value;
                 offset += 1;
             } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 2);
+                length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 ConvertUtils.fillShortToBytes(mode, (short) value, res, offset, length);
                 offset += length;
             } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 4);
+                length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 ConvertUtils.fillIntToBytes(mode, (int) value, res, offset, length);
                 offset += length;
             } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 8);
+                length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 ConvertUtils.fillLongToBytes(mode, (long) value, res, offset, length);
                 offset += length;
             } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
@@ -241,28 +244,28 @@ public final class ParserUtils {
                 System.arraycopy(tmp, 0, res, offset, tmp.length);
                 offset += tmp.length;
             } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 2);
+                length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 short[] tmp = (short[]) value;
                 for (short s : tmp) {
                     ConvertUtils.fillShortToBytes(mode, s, res, offset, length);
                     offset += length;
                 }
             } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 4);
+                length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 int[] tmp = (int[]) value;
                 for (int i : tmp) {
                     ConvertUtils.fillIntToBytes(mode, i, res, offset, length);
                     offset += length;
                 }
             } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
-                length = getFieldLength(protocolField, 8);
+                length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 long[] tmp = (long[]) value;
                 for (long l : tmp) {
                     ConvertUtils.fillLongToBytes(mode, l, res, offset, length);
                     offset += length;
                 }
             } else if (String.class.equals(fieldType)) {
-                byte[] tmp = ((String) value).getBytes(protocolField.charset());
+                byte[] tmp = ((String) value).getBytes(Charset.forName(protocolField.charset()));
                 System.arraycopy(tmp, 0, res, offset, tmp.length);
                 offset += tmp.length;
             } else if (IProtocol.class.isAssignableFrom(fieldType)) {

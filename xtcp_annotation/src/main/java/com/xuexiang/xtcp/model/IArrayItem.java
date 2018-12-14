@@ -31,5 +31,10 @@ public interface IArrayItem extends IProtocolItem {
      */
     int DEFAULT_ARRAY_LENGTH_SIZE = 1;
 
+    /**
+     * 大数组长度所占的byte位数
+     */
+    int LARGE_ARRAY_LENGTH_SIZE = 2;
+
 
 }

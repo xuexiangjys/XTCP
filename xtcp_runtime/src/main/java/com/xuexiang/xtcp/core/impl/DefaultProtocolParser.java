@@ -6,8 +6,6 @@ import com.xuexiang.xtcp.core.IProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.utils.ParserUtils;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * 默认的协议解析器
  *
@@ -23,8 +21,6 @@ public class DefaultProtocolParser implements IProtocolParser {
             return ParserUtils.calculateProtocolLength(obj);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -35,8 +31,6 @@ public class DefaultProtocolParser implements IProtocolParser {
     public byte[] protoBody2Byte(@NonNull Object obj, StorageMode storageMode) {
         try {
             return ParserUtils.protoBody2Byte(obj, storageMode);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (NoSuchFieldException e) {

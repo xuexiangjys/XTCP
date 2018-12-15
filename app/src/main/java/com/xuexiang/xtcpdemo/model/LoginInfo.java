@@ -1,10 +1,12 @@
-package com.xuexiang.xtcpdemo.protocol;
+package com.xuexiang.xtcpdemo.model;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.model.StringField;
 import com.xuexiang.xtcp.core.model.XProtocolItem;
 
 /**
+ * 登陆信息协议项
+ *
  * @author xuexiang
  * @since 2018/12/15 下午6:53
  */

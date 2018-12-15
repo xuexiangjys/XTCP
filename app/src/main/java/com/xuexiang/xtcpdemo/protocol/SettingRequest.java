@@ -9,6 +9,9 @@ import com.xuexiang.xtcp.core.model.LongArray;
 import com.xuexiang.xtcp.core.model.ShortArray;
 import com.xuexiang.xtcp.core.model.StringField;
 import com.xuexiang.xtcp.core.model.XProtocolItem;
+import com.xuexiang.xtcpdemo.model.LoginInfo;
+import com.xuexiang.xtcpdemo.model.LoginInfoArray;
+import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 
 import static com.xuexiang.xtcp.model.ProtocolInfo.byte2HexString;
 
@@ -43,6 +46,8 @@ public class SettingRequest extends XProtocolItem {
     private TestProtocolItem testItem;
     @ProtocolField(index = 11)
     private LoginInfo loginInfo;
+    @ProtocolField(index = 12)
+    private LoginInfoArray loginInfos;
 
     public SettingRequest() {
 
@@ -108,6 +113,11 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setLoginInfos(LoginInfo... loginInfos) {
+        this.loginInfos= LoginInfoArray.wrap(loginInfos);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SettingRequest{" +
@@ -123,6 +133,7 @@ public class SettingRequest extends XProtocolItem {
                 ", string2=" + string2 +
                 ", testItem=" + testItem +
                 ", loginInfo=" + loginInfo +
+                ", loginInfos=" + loginInfos +
                 '}';
     }
 }

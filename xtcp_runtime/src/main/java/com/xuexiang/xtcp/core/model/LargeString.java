@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.nio.charset.Charset;
@@ -69,6 +70,8 @@ public class LargeString extends AbstractArrayItem {
     public LargeString setData(@NonNull String data) {
         mData = data.getBytes();
         if (mData.length > MAX_LARGE_ARRAY_LENGTH) { //长度不能超过65535
+            XTLog.d("[LargeString] 数组长度溢出，需要进行截取处理...");
+
             mData = new byte[MAX_LARGE_ARRAY_LENGTH];
             System.arraycopy(data.getBytes(), 0, mData, 0, mData.length);
         }
@@ -79,6 +82,8 @@ public class LargeString extends AbstractArrayItem {
     public LargeString setData(@NonNull String data, String charset) {
         mData = data.getBytes(Charset.forName(charset));
         if (mData.length > MAX_LARGE_ARRAY_LENGTH) { //长度不能超过65535
+            XTLog.d("[LargeString] 数组长度溢出，需要进行截取处理...");
+
             mData = new byte[MAX_LARGE_ARRAY_LENGTH];
             System.arraycopy(data.getBytes(Charset.forName(charset)), 0, mData, 0, mData.length);
         }
@@ -109,6 +114,7 @@ public class LargeString extends AbstractArrayItem {
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new byte[getLength()];
         if (bytes.length - index - tailLength < mLength) { //剩余数据不够解析
+            XTLog.d("[LargeString] 剩余数据不够解析，直接退出！");
             return false;
         }
         System.arraycopy(bytes, index, mData, 0, mData.length);

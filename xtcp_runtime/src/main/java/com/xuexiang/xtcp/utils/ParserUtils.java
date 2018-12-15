@@ -8,6 +8,7 @@ import com.xuexiang.xtcp.annotation.Protocol;
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.model.IArrayItem;
 import com.xuexiang.xtcp.model.IProtocol;
 import com.xuexiang.xtcp.model.IProtocolItem;
@@ -139,6 +140,7 @@ public final class ParserUtils {
         for (Field field : fields) {
             field.setAccessible(true);
             if (bytes.length - index - tailLength <= 0) { //剩余长度已不足以读取，直接结束
+                XTLog.d("剩余长度已不足以解析读取，直接结束!");
                 return false;
             }
 
@@ -174,6 +176,7 @@ public final class ParserUtils {
                     field.set(obj, arrayItem);
                     offset += arrayItem.getProtocolLength() - length;
                 } else {
+                    XTLog.d("IArrayItem.class 数组解析失败，错误字段: " + classType.getCanonicalName() + "[" + fieldType.getName() + "]");
                     return false;
                 }
             } else if (IProtocolItem.class.isAssignableFrom(fieldType)) {
@@ -182,6 +185,7 @@ public final class ParserUtils {
                     field.set(obj, item);
                     offset += item.getProtocolLength();
                 } else {
+                    XTLog.d("IProtocolItem.class 自定义协议项解析失败，错误字段: " + classType.getCanonicalName() + "[" + fieldType.getName() + "]");
                     return false;
                 }
             }
@@ -228,6 +232,7 @@ public final class ParserUtils {
             Object value = field.get(obj);
 
             if (value == null) { //未赋值的直接跳过
+                XTLog.d("未赋值的直接跳过, 字段: " + classType.getCanonicalName() + "[" + fieldType.getName() + "]");
                 continue;
             }
 

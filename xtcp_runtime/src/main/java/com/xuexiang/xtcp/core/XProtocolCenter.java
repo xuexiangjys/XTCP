@@ -154,7 +154,6 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
         return mClass2Fields;
     }
 
-
     /**
      * 根据类名获取协议字段
      *

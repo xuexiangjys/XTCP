@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.core.IProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.utils.ParserUtils;
 
 /**
@@ -14,6 +15,7 @@ import com.xuexiang.xtcp.utils.ParserUtils;
  */
 public class DefaultProtocolParser implements IProtocolParser {
 
+    private static final String TAG = "DefaultProtocolParser";
 
     @Override
     public int getProtocolLength(@NonNull Object obj) {
@@ -21,8 +23,10 @@ public class DefaultProtocolParser implements IProtocolParser {
             return ParserUtils.calculateProtocolLength(obj);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         }
         return 0;
     }
@@ -33,8 +37,10 @@ public class DefaultProtocolParser implements IProtocolParser {
             return ParserUtils.protoBody2Byte(obj, storageMode);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         }
         return new byte[0];
     }
@@ -45,10 +51,13 @@ public class DefaultProtocolParser implements IProtocolParser {
             return ParserUtils.byte2ProtoBody(obj, bytes, index, tailLength, storageMode);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         } catch (InstantiationException e) {
             e.printStackTrace();
+            XTLog.eTag(TAG, e);
         }
         return false;
     }

@@ -1,5 +1,7 @@
 package com.xuexiang.xtcp.core.model;
 
+import android.support.annotation.Nullable;
+
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.enums.StorageMode;
@@ -49,6 +51,7 @@ public abstract class AbstractArrayItem implements IArrayItem {
     /**
      * 获取数组协议字段的长度
      *
+     * @param fieldName 字段名
      * @param maxLength 最大的长度
      * @return
      */
@@ -62,6 +65,28 @@ public abstract class AbstractArrayItem implements IArrayItem {
             e.printStackTrace();
         }
         return maxLength;
+    }
+
+    /**
+     * 获取数组协议字段的类型
+     *
+     * @param fieldName 字段名
+     * @return
+     */
+    @Nullable
+    protected Class<?> getArrayFieldType(String fieldName) {
+        try {
+            Field field = getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            String arrTypeStr = field.getType().toString();
+            // 通过对象数组类型获取对象类型
+            return Class.forName(arrTypeStr.substring(arrTypeStr.indexOf('[') + 2, arrTypeStr.length() - 1));
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

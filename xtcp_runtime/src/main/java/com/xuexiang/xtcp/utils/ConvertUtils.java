@@ -20,6 +20,10 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.enums.StorageMode;
 
+import static com.xuexiang.xtcp.core.Constants.INT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.LONG_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
+
 /**
  * 转换相关工具类
  * (【小端】低位在前，高位在后)
@@ -139,8 +143,8 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static short bytesToShort(StorageMode mode, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 2) { //纠正错误的长度
-            length = 2;
+        if (length < 1 || length > SHORT_MAX_LENGTH) { //纠正错误的长度
+            length = SHORT_MAX_LENGTH;
         }
         return (short) readBytes(mode, src, offset, length);
     }
@@ -156,8 +160,8 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static int fillShortToBytes(StorageMode mode, short value, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 2) { //纠正错误的长度
-            length = 2;
+        if (length < 1 || length > SHORT_MAX_LENGTH) { //纠正错误的长度
+            length = SHORT_MAX_LENGTH;
         }
         fillValueToBytes(mode, value, src, offset, length);
         return offset + length;
@@ -175,8 +179,8 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static int bytesToInt(StorageMode mode, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 4) {  //纠正错误的长度
-            length = 4;
+        if (length < 1 || length > INT_MAX_LENGTH) {  //纠正错误的长度
+            length = INT_MAX_LENGTH;
         }
         return readBytes(mode, src, offset, length);
     }
@@ -192,14 +196,15 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static int fillIntToBytes(StorageMode mode, int value, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 4) { //纠正错误的长度
-            length = 4;
+        if (length < 1 || length > INT_MAX_LENGTH) { //纠正错误的长度
+            length = INT_MAX_LENGTH;
         }
         fillValueToBytes(mode, value, src, offset, length);
         return offset + length;
     }
 
     // ======================【byte数组<-->（无符号）long】=====================================//
+
     /**
      * byte数组中取long数值
      *
@@ -210,19 +215,19 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static long bytesToLong(StorageMode mode, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 8) {  //纠正错误的长度
-            length = 8;
+        if (length < 1 || length > LONG_MAX_LENGTH) {  //纠正错误的长度
+            length = LONG_MAX_LENGTH;
         }
 
         long value = 0;
         //从低位开始读
         if (StorageMode.LittleEndian.equals(mode)) {
             for (int i = 0; i < length; i++) {
-                value |= ((long)src[offset + i] & 0xFF) << (8 * i);
+                value |= ((long) src[offset + i] & 0xFF) << (8 * i);
             }
         } else {
             for (int i = 0; i < length; i++) {
-                value |= ((long)src[offset + length - i - 1] & 0xFF) << (8 * i);
+                value |= ((long) src[offset + length - i - 1] & 0xFF) << (8 * i);
             }
         }
         return value;
@@ -240,8 +245,8 @@ public final class ConvertUtils {
      * @return short数值
      */
     public static int fillLongToBytes(StorageMode mode, long value, @NonNull byte[] src, int offset, int length) {
-        if (length < 1 || length > 8) { //纠正错误的长度
-            length = 8;
+        if (length < 1 || length > LONG_MAX_LENGTH) { //纠正错误的长度
+            length = LONG_MAX_LENGTH;
         }
 
         if (StorageMode.LittleEndian.equals(mode)) {

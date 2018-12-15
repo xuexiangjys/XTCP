@@ -18,9 +18,9 @@ import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.model.IntArray;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.utils.ConvertUtils;
-import com.xuexiang.xtcpdemo.protocol.LoginInfo;
+import com.xuexiang.xtcpdemo.model.LoginInfo;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
-import com.xuexiang.xtcpdemo.protocol.TestProtocolItem;
+import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -97,6 +97,9 @@ public class MyApp extends Application {
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
                 .setLoginInfo(new LoginInfo("xuexiang", "123456"))
+                .setLoginInfos(new LoginInfo("xuexiang1", "222222"),
+                        new LoginInfo("xuexiang2", "333333"),
+                        new LoginInfo("xuexiang3", "444444"))
                 .setTestItem(new TestProtocolItem()
                         .setFunc1((byte) 0x56)
                         .setFunc2((short) 314)

@@ -1,9 +1,13 @@
 package com.xuexiang.xtcp;
 
+import android.support.annotation.NonNull;
+
 import com.xuexiang.xtcp.core.IProtocolParser;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.impl.DefaultProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.ILogger;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.model.IProtocolCenter;
 import com.xuexiang.xtcp.model.IProtocolFieldCenter;
 
@@ -19,6 +23,7 @@ public class XTCP {
 
     private XTCP() {
         _XTCP.setIProtocolParser(new DefaultProtocolParser());
+        //默认使用大端的存储方式
         _XTCP.setDefaultStorageMode(StorageMode.BigEndian);
     }
 
@@ -38,6 +43,7 @@ public class XTCP {
         return sInstance;
     }
 
+    //=================初始化设置=========================//
     /**
      * 设置协议中心
      *
@@ -79,6 +85,29 @@ public class XTCP {
      */
     public XTCP setDefaultStorageMode(StorageMode sStorageMode) {
         _XTCP.setDefaultStorageMode(sStorageMode);
+        return this;
+    }
+
+    //=================日志=========================//
+    /**
+     * 设置是否是debug模式
+     *
+     * @param isDebug
+     * @return
+     */
+    public XTCP debug(boolean isDebug) {
+        XTLog.debug(isDebug);
+        return this;
+    }
+
+    /**
+     * 设置日志打印接口
+     *
+     * @param logger
+     * @return
+     */
+    public XTCP setILogger(@NonNull ILogger logger) {
+        XTLog.setLogger(logger);
         return this;
     }
 

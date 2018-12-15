@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
 import static com.xuexiang.xtcp.core.Constants.MAX_LARGE_ARRAY_LENGTH;
 
 /**
@@ -71,6 +71,8 @@ public class LargeByteArray extends AbstractArrayItem {
     public LargeByteArray setData(@NonNull byte[] data) {
         mData = data;
         if (mData.length > MAX_LARGE_ARRAY_LENGTH) { //长度不能超过65535
+            XTLog.d("[LargeByteArray] 数组长度溢出，需要进行截取处理...");
+
             mData = new byte[MAX_LARGE_ARRAY_LENGTH];
             System.arraycopy(data, 0, mData, 0, mData.length);
         }
@@ -82,6 +84,7 @@ public class LargeByteArray extends AbstractArrayItem {
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new byte[getLength()];
         if (bytes.length - index - tailLength < mLength) { //剩余数据不够解析
+            XTLog.d("[LargeByteArray] 剩余数据不够解析，直接退出！");
             return false;
         }
         System.arraycopy(bytes, index, mData, 0, mData.length);

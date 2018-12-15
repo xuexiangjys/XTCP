@@ -1,26 +1,22 @@
-package com.xuexiang.xtcp.core.model;
+package com.xuexiang.xtcpdemo.model;
 
 import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
+import com.xuexiang.xtcp.core.model.AbstractArrayItem;
 import com.xuexiang.xtcp.enums.StorageMode;
-import com.xuexiang.xtcp.logs.XTLog;
-import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.util.Arrays;
 
-import static com.xuexiang.xtcp.core.Constants.LONG_MAX_LENGTH;
 import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
 
 /**
- * long数组协议项<br>
- * <p>
- * mLength所占的byte位数为1，可表示的长度范围为【0～255】
+ * 自定义协议数组【由于自定义的协议，其数组的类型不可知，故无法封装，只能自定义协议包装体】
  *
  * @author xuexiang
- * @since 2018/12/14 上午12:05
+ * @since 2018/12/15 下午10:02
  */
-public class LongArray extends AbstractArrayItem {
+public class LoginInfoArray extends AbstractArrayItem {
 
     /**
      * 集合数组的长度
@@ -32,31 +28,33 @@ public class LongArray extends AbstractArrayItem {
      * 集合数据
      */
     @ProtocolField(index = 1)
-    private long[] mData;
+    private LoginInfo[] mData;
 
     /**
-     * 获取long数组包装类
+     * 获取数组包装类
      *
      * @param data
      * @return
      */
-    public static LongArray wrap(@NonNull long[] data) {
-        return new LongArray(data);
+    public static LoginInfoArray wrap(@NonNull LoginInfo[] data) {
+        return new LoginInfoArray(data);
     }
+
 
     /**
      * 空的构造方法不能去除，用于反射构造
      */
-    public LongArray() {
+    public LoginInfoArray() {
 
     }
 
-    public LongArray(@NonNull long[] data) {
+    public LoginInfoArray(@NonNull LoginInfo[] data) {
         setData(data);
     }
 
+
     @Override
-    public LongArray setLength(int length) {
+    public LoginInfoArray setLength(int length) {
         mLength = length;
         return this;
     }
@@ -66,16 +64,14 @@ public class LongArray extends AbstractArrayItem {
         return mLength;
     }
 
-    public long[] getData() {
+    public LoginInfo[] getData() {
         return mData;
     }
 
-    public LongArray setData(@NonNull long[] data) {
+    public LoginInfoArray setData(@NonNull LoginInfo[] data) {
         mData = data;
         if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
-            XTLog.d("[LongArray] 数组长度溢出，需要进行截取处理...");
-
-            mData = new long[MAX_ARRAY_LENGTH];
+            mData = new LoginInfo[MAX_ARRAY_LENGTH];
             System.arraycopy(data, 0, mData, 0, mData.length);
         }
         mLength = mData.length;
@@ -84,22 +80,29 @@ public class LongArray extends AbstractArrayItem {
 
     @Override
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
-        mData = new long[getLength()];
-        int dataFieldLength = getArrayFieldLength(FIELD_NAME_DATA, LONG_MAX_LENGTH);
-        if (bytes.length - index - tailLength < mLength * dataFieldLength) { //剩余数据不够解析
-            XTLog.d("[LongArray] 剩余数据不够解析，直接退出！");
+        mData = new LoginInfo[getLength()];
+        Class<?> type = getArrayFieldType(FIELD_NAME_DATA);
+        if (type == null) {
             return false;
         }
-        for (int i = 0; i < mLength; i++) {
-            mData[i] = ConvertUtils.bytesToLong(storageMode, bytes, index, dataFieldLength);
-            index += dataFieldLength;
+
+        LoginInfo item;
+        for (int i = 0; i < mData.length; i++) {
+            if (bytes.length - index - tailLength <= 0) { //剩余长度已不足以读取，直接结束
+                return false;
+            }
+
+            item = new LoginInfo();
+            item.byte2proto(bytes, index, tailLength, storageMode);
+            index += item.getProtocolLength();
+            mData[i] = item;
         }
         return true;
     }
 
     @Override
     public String toString() {
-        return "LongArray{" +
+        return "LoginInfoArray{" +
                 "mLength=" + mLength +
                 ", mData=" + Arrays.toString(mData) +
                 '}';

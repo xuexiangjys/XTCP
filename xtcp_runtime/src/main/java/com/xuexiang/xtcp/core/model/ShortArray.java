@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.util.Arrays;
@@ -68,6 +69,8 @@ public class ShortArray extends AbstractArrayItem {
     public ShortArray setData(@NonNull short[] data) {
         mData = data;
         if (mData.length > MAX_ARRAY_LENGTH) { //长度不能超过255
+            XTLog.d("[ShortArray] 数组长度溢出，需要进行截取处理...");
+
             mData = new short[MAX_ARRAY_LENGTH];
             System.arraycopy(data, 0, mData, 0, mData.length);
         }
@@ -84,6 +87,7 @@ public class ShortArray extends AbstractArrayItem {
         mData = new short[getLength()];
         int dataFieldLength = getArrayFieldLength(FIELD_NAME_DATA, SHORT_MAX_LENGTH);
         if (bytes.length - index - tailLength < mLength * dataFieldLength) { //剩余数据不够解析
+            XTLog.d("[ShortArray] 剩余数据不够解析，直接退出！");
             return false;
         }
         for (int i = 0; i < mLength; i++) {

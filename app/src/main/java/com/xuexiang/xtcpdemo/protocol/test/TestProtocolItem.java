@@ -1,8 +1,9 @@
-package com.xuexiang.xtcpdemo.protocol;
+package com.xuexiang.xtcpdemo.protocol.test;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.model.IntArray;
 import com.xuexiang.xtcp.core.model.XProtocolItem;
+import com.xuexiang.xtcpdemo.model.LoginInfo;
 
 import static com.xuexiang.xtcp.model.ProtocolInfo.byte2HexString;
 

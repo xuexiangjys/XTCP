@@ -46,7 +46,7 @@ public class TestProtocolItem extends XProtocolItem {
     }
 
     public TestProtocolItem setList1(int... list) {
-        this.list = new IntArray(list);
+        this.list = IntArray.wrap(list);
         return this;
     }
 

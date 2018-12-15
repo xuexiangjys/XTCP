@@ -34,6 +34,16 @@ public class LongArray extends AbstractArrayItem {
     private long[] mData;
 
     /**
+     * 获取long数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static LongArray wrap(@NonNull long[] data) {
+        return new LongArray(data);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public LongArray() {

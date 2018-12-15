@@ -32,6 +32,26 @@ public class LargeString extends AbstractArrayItem {
     private byte[] mData;
 
     /**
+     * 获取长String数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static LargeString wrap(@NonNull String data) {
+        return new LargeString(data);
+    }
+
+    /**
+     * 获取长String数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static LargeString wrap(@NonNull String data, String charset) {
+        return new LargeString(data, charset);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public LargeString() {

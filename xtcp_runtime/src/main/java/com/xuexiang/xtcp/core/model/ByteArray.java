@@ -31,6 +31,16 @@ public class ByteArray extends AbstractArrayItem {
     private byte[] mData;
 
     /**
+     * 获取Byte数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static ByteArray wrap(@NonNull byte[] data) {
+        return new ByteArray(data);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public ByteArray() {

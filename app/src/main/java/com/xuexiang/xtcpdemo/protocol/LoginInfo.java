@@ -27,12 +27,12 @@ public class LoginInfo extends XProtocolItem {
     }
 
     public LoginInfo setLoginName(String loginName) {
-        this.loginName = new StringField(loginName);
+        this.loginName = StringField.wrap(loginName);
         return this;
     }
 
     public LoginInfo setPassword(String password) {
-        this.password = new StringField(password);
+        this.password = StringField.wrap(password);
         return this;
     }
 

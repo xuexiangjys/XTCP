@@ -49,22 +49,22 @@ public class SettingRequest extends XProtocolItem {
     }
 
     public SettingRequest setList1(byte... list) {
-        this.list1 = new ByteArray(list);
+        this.list1 = ByteArray.wrap(list);
         return this;
     }
 
     public SettingRequest setList2(short... list) {
-        this.list2 = new ShortArray(list);
+        this.list2 = ShortArray.wrap(list);
         return this;
     }
 
     public SettingRequest setList3(int... list) {
-        this.list3 = new IntArray(list);
+        this.list3 = IntArray.wrap(list);
         return this;
     }
 
     public SettingRequest setList4(long... list) {
-        this.list4 = new LongArray(list);
+        this.list4 = LongArray.wrap(list);
         return this;
     }
 
@@ -94,7 +94,7 @@ public class SettingRequest extends XProtocolItem {
     }
 
     public SettingRequest setString2(String s) {
-        this.string2 = new LargeString(s);
+        this.string2 = LargeString.wrap(s);
         return this;
     }
 

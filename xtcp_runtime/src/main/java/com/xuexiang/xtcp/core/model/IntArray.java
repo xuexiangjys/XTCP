@@ -33,6 +33,16 @@ public class IntArray extends AbstractArrayItem {
     private int[] mData;
 
     /**
+     * 获取int数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static IntArray wrap(@NonNull int[] data) {
+        return new IntArray(data);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public IntArray() {

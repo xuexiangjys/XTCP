@@ -32,6 +32,26 @@ public class StringField extends AbstractArrayItem {
     private byte[] mData;
 
     /**
+     * 获取String数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static StringField wrap(@NonNull String data) {
+        return new StringField(data);
+    }
+
+    /**
+     * 获取String数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static StringField wrap(@NonNull String data, String charset) {
+        return new StringField(data, charset);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public StringField() {

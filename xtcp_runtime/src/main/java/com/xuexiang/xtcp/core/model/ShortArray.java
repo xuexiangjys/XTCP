@@ -34,6 +34,16 @@ public class ShortArray extends AbstractArrayItem {
     private short[] mData;
 
     /**
+     * 获取short数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static ShortArray wrap(@NonNull short[] data) {
+        return new ShortArray(data);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public ShortArray() {

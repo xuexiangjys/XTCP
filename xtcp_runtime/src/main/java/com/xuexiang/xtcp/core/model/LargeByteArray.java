@@ -32,6 +32,16 @@ public class LargeByteArray extends AbstractArrayItem {
     private byte[] mData;
 
     /**
+     * 获取长Byte数组包装类
+     *
+     * @param data
+     * @return
+     */
+    public static LargeByteArray wrap(@NonNull byte[] data) {
+        return new LargeByteArray(data);
+    }
+
+    /**
      * 空的构造方法不能去除，用于反射构造
      */
     public LargeByteArray() {

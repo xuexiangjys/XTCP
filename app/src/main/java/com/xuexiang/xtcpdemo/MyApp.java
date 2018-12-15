@@ -5,7 +5,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.xuexiang.xaop.XAOP;
+import com.xuexiang.xaop.annotation.DebugLog;
 import com.xuexiang.xaop.util.PermissionUtils;
+import com.xuexiang.xaop.util.Strings;
 import com.xuexiang.xpage.AppPageConfig;
 import com.xuexiang.xpage.PageConfig;
 import com.xuexiang.xpage.PageConfiguration;
@@ -23,6 +25,7 @@ import com.xuexiang.xtcpdemo.protocol.SettingRequest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
+import com.xuexiang.xutil.net.JsonUtil;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import java.util.Arrays;
@@ -59,6 +62,12 @@ public class MyApp extends Application {
 
         XAOP.init(this); //初始化插件
         XAOP.debug(true); //日志打印切片开启
+        XAOP.setISerializer(new Strings.ISerializer() {
+            @Override
+            public String toString(Object obj) {
+                return JsonUtil.toJson(obj);
+            }
+        });
         //设置动态申请权限切片 申请权限被拒绝的事件响应监听
         XAOP.setOnPermissionDeniedListener(new PermissionUtils.OnPermissionDeniedListener() {
             @Override
@@ -72,12 +81,20 @@ public class MyApp extends Application {
     private void initXTCP() {
         XTCP.getInstance()
                 .setIProtocolCenter(AppProtocolCenter.getInstance())
-                .setIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance());
+                .setIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance())
+                .debug(true);
 
         Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x12).toString());
 
         Log.e("xuexiang", Arrays.toString(XProtocolCenter.getInstance().getProtocolFields(IntArray.class.getName())));
 
+
+        test();
+
+    }
+
+    @DebugLog
+    private void test() {
         SettingRequest request = new SettingRequest()
                 .setFunc1((byte) 0x45)
                 .setFunc2((short) 12)
@@ -97,9 +114,9 @@ public class MyApp extends Application {
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
                 .setLoginInfo(new LoginInfo("xuexiang", "123456"))
-                .setLoginInfos(new LoginInfo("xuexiang1", "222222"),
-                        new LoginInfo("xuexiang2", "333333"),
-                        new LoginInfo("xuexiang3", "444444"))
+                .setLoginInfos(new LoginInfo("xuexiang1", "222"),
+                        new LoginInfo("xuexiang23", "3333"),
+                        new LoginInfo("xuexiang456", "44444"))
                 .setTestItem(new TestProtocolItem()
                         .setFunc1((byte) 0x56)
                         .setFunc2((short) 314)
@@ -114,6 +131,5 @@ public class MyApp extends Application {
         request1.byte2proto(bytes, 0, 0, StorageMode.Default);
 
         Log.e("xuexiang", request1.toString());
-
     }
 }

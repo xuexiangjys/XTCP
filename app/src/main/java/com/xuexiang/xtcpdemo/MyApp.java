@@ -18,7 +18,9 @@ import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.model.IntArray;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.utils.ConvertUtils;
+import com.xuexiang.xtcpdemo.protocol.LoginInfo;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
+import com.xuexiang.xtcpdemo.protocol.TestProtocolItem;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
 import com.xuexiang.xutil.tip.ToastUtils;
@@ -80,11 +82,11 @@ public class MyApp extends Application {
                 .setFunc1((byte) 0x45)
                 .setFunc2((short) 12)
                 .setFunc3(2345)
-                .setFunc4((long)1213131233)
-                .setList1((byte)0x23, (byte)0x45, (byte)0x56)
-                .setList2((short)11,(short)22,(short)33)
-                .setList3(111,222,333)
-                .setList4((long)1221312, (long)23123123)
+                .setFunc4((long) 1213131233)
+                .setList1((byte) 0x23, (byte) 0x45, (byte) 0x56)
+                .setList2((short) 11, (short) 22, (short) 33)
+                .setList3(111, 222, 333)
+                .setList4((long) 1221312, (long) 23123123)
                 //长度超过255的话，就溢出了
                 .setString1("我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
                 .setString2("我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
@@ -93,7 +95,15 @@ public class MyApp extends Application {
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
-                        "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！");
+                        "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
+                .setLoginInfo(new LoginInfo("xuexiang", "123456"))
+                .setTestItem(new TestProtocolItem()
+                        .setFunc1((byte) 0x56)
+                        .setFunc2((short) 314)
+                        .setFunc3(6111)
+                        .setFunc4((long) 35536234)
+                        .setList1(314, 334, 34235, 67584, 45234, 6757)
+                        .setLoginInfo(new LoginInfo("xuexiangjys", "111111")));
         byte[] bytes = request.proto2byte(StorageMode.Default);
         Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 

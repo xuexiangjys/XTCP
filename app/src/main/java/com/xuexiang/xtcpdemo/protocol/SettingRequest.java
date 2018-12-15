@@ -39,6 +39,10 @@ public class SettingRequest extends XProtocolItem {
     private StringField string1;
     @ProtocolField(index = 9)
     private LargeString string2;
+    @ProtocolField(index = 10)
+    private TestProtocolItem testItem;
+    @ProtocolField(index = 11)
+    private LoginInfo loginInfo;
 
     public SettingRequest() {
 
@@ -94,6 +98,16 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setTestItem(TestProtocolItem item) {
+        this.testItem = item;
+        return this;
+    }
+
+    public SettingRequest setLoginInfo(LoginInfo loginInfo) {
+        this.loginInfo = loginInfo;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SettingRequest{" +
@@ -107,6 +121,8 @@ public class SettingRequest extends XProtocolItem {
                 ", list4=" + list4 +
                 ", string1=" + string1 +
                 ", string2=" + string2 +
+                ", testItem=" + testItem +
+                ", loginInfo=" + loginInfo +
                 '}';
     }
 }

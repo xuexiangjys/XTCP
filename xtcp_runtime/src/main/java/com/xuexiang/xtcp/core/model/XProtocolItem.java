@@ -5,7 +5,7 @@ import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IProtocolItem;
 
 /**
- * 默认提供的协议项
+ * 默认提供的基础协议项，自定义协议可直接继承XProtocolItem
  *
  * @author xuexiang
  * @since 2018/12/12 下午1:39

@@ -135,7 +135,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * 根据类名获取协议字段名集合
      */
     @Override
-    public String[] getProtocolFields(final String className) {
+    public Field[] getProtocolFields(final String className) {
         return mClass2Fields.get(className).getFields();
     }
 
@@ -160,16 +160,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param cls
      * @return
      */
-    public Field[] getProtocolFields(@NonNull Class<?> cls) throws NoSuchFieldException {
-        Field[] fields = null;
-        String[] fieldNames = getProtocolFields(cls.getCanonicalName());
-
-        if (fieldNames != null && fieldNames.length > 0) {
-            fields = new Field[fieldNames.length];
-            for (int i = 0; i < fieldNames.length; i++) {
-                fields[i] = cls.getDeclaredField(fieldNames[i]);
-            }
-        }
-        return fields;
+    public Field[] getProtocolFields(@NonNull Class<?> cls) {
+        return getProtocolFields(cls.getCanonicalName());
     }
 }

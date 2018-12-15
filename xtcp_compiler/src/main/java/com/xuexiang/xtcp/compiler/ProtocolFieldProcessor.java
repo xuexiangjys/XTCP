@@ -20,6 +20,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,8 +76,6 @@ public class ProtocolFieldProcessor extends AbstractProcessor {
 
     private static final String PROTOCOL_CLASS_NAME = "ProtocolFieldCenter";
 
-    private TypeMirror mIProtocol = null;
-
     private Map<TypeElement, List<Element>> parentAndChild = new HashMap<>();   // Contain field need ProtocolField and his super class.
 
     @Override
@@ -107,7 +106,6 @@ public class ProtocolFieldProcessor extends AbstractProcessor {
             //默认是app
             moduleName = "app";
         }
-        mIProtocol = mElements.getTypeElement(IProtocol.class.getCanonicalName()).asType();
 
         mLogger.info(">>> ProtocolFieldProcessor init. <<<");
     }
@@ -205,9 +203,10 @@ public class ProtocolFieldProcessor extends AbstractProcessor {
                 for (String value : map.values()) {
                     sb.append(value).append(",");
                 }
-                constructorBuilder.addStatement("mClass2Fields.put($S, new $T($S))",
+                constructorBuilder.addStatement("mClass2Fields.put($S, new $T($S, $S))",
                         className,
                         ProtocolFieldInfo.class,
+                        className,
                         sb.toString());
             }
 
@@ -232,7 +231,7 @@ public class ProtocolFieldProcessor extends AbstractProcessor {
                     .addAnnotation(Override.class)
                     .addJavadoc("根据类名获取协议字段名集合")
                     .addParameter(String.class, "className", Modifier.FINAL)
-                    .returns(String[].class)
+                    .returns(Field[].class)
                     .addStatement("return mClass2Fields.get(className).getFields()")
                     .build();
 

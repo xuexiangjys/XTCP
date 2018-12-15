@@ -1,5 +1,6 @@
 package com.xuexiang.xtcp.model;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ public interface IProtocolFieldCenter {
      * @param className
      * @return
      */
-    String[] getProtocolFields(final String className);
+    Field[] getProtocolFields(final String className);
 
     /**
      * @return 获取 实体类 -> 协议字段名集合 的映射

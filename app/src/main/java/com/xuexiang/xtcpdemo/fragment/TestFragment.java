@@ -24,6 +24,7 @@ public class TestFragment extends XPageSimpleListFragment {
     @Override
     protected List<String> initSimpleData(List<String> lists) {
         lists.add("测试byte化和反byte化");
+        lists.add("性能测试");
         return lists;
     }
 
@@ -31,6 +32,9 @@ public class TestFragment extends XPageSimpleListFragment {
     protected void onItemClick(int position) {
         switch(position) {
             case 0:
+                test();
+                break;
+            case 1:
                 long time = 0;
                 for (int i = 0; i < 30; i++) {
                     time += test();

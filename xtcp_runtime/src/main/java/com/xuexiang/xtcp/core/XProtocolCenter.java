@@ -163,4 +163,14 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     public Field[] getProtocolFields(@NonNull Class<?> cls) {
         return getProtocolFields(cls.getCanonicalName());
     }
+
+    /**
+     * 根据opCode获取协议类名
+     *
+     * @param opCode
+     * @return
+     */
+    public String getClassNameByOpCode(@NonNull byte opCode) {
+        return mOpCode2Info.get(opCode).getClassName();
+    }
 }

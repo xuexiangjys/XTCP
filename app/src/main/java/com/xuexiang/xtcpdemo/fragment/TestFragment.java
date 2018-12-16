@@ -5,10 +5,13 @@ import android.util.Log;
 import com.xuexiang.xaop.annotation.DebugLog;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.base.XPageSimpleListFragment;
+import com.xuexiang.xtcp.core.message.XMessage;
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 import com.xuexiang.xtcpdemo.model.LoginInfo;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
+import com.xuexiang.xtcpdemo.protocol.test.MessageTest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 import com.xuexiang.xutil.tip.ToastUtils;
 
@@ -24,6 +27,7 @@ public class TestFragment extends XPageSimpleListFragment {
     @Override
     protected List<String> initSimpleData(List<String> lists) {
         lists.add("测试byte化和反byte化");
+        lists.add("测试消息包装");
         lists.add("性能测试");
         return lists;
     }
@@ -35,6 +39,9 @@ public class TestFragment extends XPageSimpleListFragment {
                 test();
                 break;
             case 1:
+                testMessage();
+                break;
+            case 2:
                 long time = 0;
                 for (int i = 0; i < 30; i++) {
                     time += test();
@@ -89,5 +96,32 @@ public class TestFragment extends XPageSimpleListFragment {
         Log.e("xuexiang", request1.toString());
         long stopNanos = System.nanoTime();
         return TimeUnit.NANOSECONDS.toMillis(stopNanos - startNanos);
+    }
+
+    @DebugLog
+    private void testMessage() {
+
+        MessageTest messageTest = new MessageTest()
+                .setFunc1((byte) 0x45)
+                .setFunc2((short) 12)
+                .setFunc3(2345)
+                .setFunc4((long) 1213131233)
+                .setList2((short) 11, (short) 22, (short) 33)
+                .setLoginInfo(new LoginInfo("xuexiang", "123456"));
+
+        XMessage message = getXMessage(messageTest);
+        byte[] bytes = message.msg2Byte();
+        Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
+
+
+        XMessage message1 = new XMessage();
+        boolean result = message1.byte2Msg(bytes);
+
+        Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
+
+    }
+
+    private XMessage getXMessage(IProtocolItem protocolItem) {
+        return new XMessage().setIProtocolItem(protocolItem);
     }
 }

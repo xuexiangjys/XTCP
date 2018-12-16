@@ -34,7 +34,6 @@ public interface IProtocolCenter {
      */
     byte getOpCodeByClassName(final String className);
 
-
     /**
      * @return 获取 协议类名 -> 协议信息 的映射
      */

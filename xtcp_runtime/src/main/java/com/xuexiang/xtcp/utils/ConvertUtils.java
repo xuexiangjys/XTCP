@@ -84,6 +84,16 @@ public final class ConvertUtils {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
 
+    /**
+     * 一位byte转int【无符号】
+     *
+     * @param b
+     * @return 【0 ~ 255】
+     */
+    public static int byteToIntUnSigned(byte b) {
+        return b & 0xFF;
+    }
+
     // ======================【通用方法】=====================================//
 
     /**
@@ -150,6 +160,18 @@ public final class ConvertUtils {
     }
 
     /**
+     * byte数组中取short数值
+     *
+     * @param mode   存储方式
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @return short数值
+     */
+    public static short bytesToShort(StorageMode mode, @NonNull byte[] src, int offset) {
+        return (short) readBytes(mode, src, offset, SHORT_MAX_LENGTH);
+    }
+
+    /**
      * 将short填充至byte数组中
      *
      * @param mode   存储方式
@@ -165,6 +187,20 @@ public final class ConvertUtils {
         }
         fillValueToBytes(mode, value, src, offset, length);
         return offset + length;
+    }
+
+    /**
+     * 将short填充至byte数组中
+     *
+     * @param mode   存储方式
+     * @param value  数值
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @return short数值
+     */
+    public static int fillShortToBytes(StorageMode mode, short value, @NonNull byte[] src, int offset) {
+        fillValueToBytes(mode, value, src, offset, SHORT_MAX_LENGTH);
+        return offset + SHORT_MAX_LENGTH;
     }
 
     // ======================【byte数组<-->（无符号）int】=====================================//

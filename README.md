@@ -9,7 +9,7 @@
 
 ## 特征
 
-* 简单通过@Protocol和@ProtocolField的配置，即可让实体对象拥有自动转化为TCP传输的byte数据和自动byte数据解析。
+* 简单通过`@Protocol`和`@ProtocolField`的配置，即可让实体对象拥有自动转化为TCP传输的byte数据和自动byte数据解析。
 
 * 支持byte、short、int、long、byte\[\]、short\[\]、int\[\]、long\[\]、String等常用基础类型，支持类型的拓展
 
@@ -95,7 +95,7 @@ XTCP.getInstance()
 * @ProtocolField: 用于注解协议项字段，包括`index`、`isField`、`length`、`mode`、`charset`等属性。
 
 ```
-@Protocol(name = "参数设置请求", opcode = 0x12, resCode = 0x33, desc = "注意重启下位机后生效！")
+@Protocol(name = "参数设置请求", opCode = 0x12, resCode = 0x33, desc = "注意重启下位机后生效！")
 public class SettingRequest extends XProtocolItem {
     @ProtocolField(index = 0)
     private byte func1;

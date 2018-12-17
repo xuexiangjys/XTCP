@@ -1,4 +1,4 @@
-package com.xuexiang.xtcp.core;
+package com.xuexiang.xtcp.core.parser;
 
 import android.support.annotation.NonNull;
 

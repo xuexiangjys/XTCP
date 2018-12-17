@@ -5,17 +5,23 @@ import android.util.Log;
 import com.xuexiang.xaop.annotation.DebugLog;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.base.XPageSimpleListFragment;
+import com.xuexiang.xtcp.core.buffer.BufferException;
+import com.xuexiang.xtcp.core.buffer.IBuffer;
+import com.xuexiang.xtcp.core.buffer.impl.CircularBuffer;
+import com.xuexiang.xtcp.core.message.IMessage;
 import com.xuexiang.xtcp.core.message.template.XMessage;
 import com.xuexiang.xtcp.core.message.template.XOrderlyMessage;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
+import com.xuexiang.xtcp.utils.MessageUtils;
 import com.xuexiang.xtcpdemo.model.LoginInfo;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
 import com.xuexiang.xtcpdemo.protocol.test.MessageTest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +36,7 @@ public class TestFragment extends XPageSimpleListFragment {
         lists.add("测试byte化和反byte化");
         lists.add("测试无序消息XMessage包装");
         lists.add("测试有序消息XOrderlyMessage包装");
+        lists.add("测试多个消息包的解析");
         lists.add("性能测试");
         return lists;
     }
@@ -47,6 +54,9 @@ public class TestFragment extends XPageSimpleListFragment {
                 testXOrderlyMessage();
                 break;
             case 3:
+                testMultiMessage();
+                break;
+            case 4:
                 long time = 0;
                 for (int i = 0; i < 30; i++) {
                     time += test();
@@ -58,7 +68,6 @@ public class TestFragment extends XPageSimpleListFragment {
                 break;
         }
     }
-
 
     @DebugLog
     private long test() {
@@ -119,7 +128,7 @@ public class TestFragment extends XPageSimpleListFragment {
         Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 
 
-        XMessage message1 = new XMessage(true);
+        XMessage message1 = new XMessage();
         boolean result = message1.byte2Msg(bytes);
 
         Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
@@ -142,19 +151,51 @@ public class TestFragment extends XPageSimpleListFragment {
         Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 
 
-        XOrderlyMessage message1 = new XOrderlyMessage(true);
+        XOrderlyMessage message1 = new XOrderlyMessage();
         boolean result = message1.byte2Msg(bytes);
 
         Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
 
     }
 
+    @DebugLog
+    private void testMultiMessage() {
+        IBuffer buffer = new CircularBuffer();
+
+        MessageTest messageTest = new MessageTest()
+                .setFunc1((byte) 0x45)
+                .setFunc2((short) 12)
+                .setFunc3(2345)
+                .setFunc4((long) 1213131233)
+                .setList2((short) 11, (short) 22, (short) 33)
+                .setLoginInfo(new LoginInfo("xuexiang", "123456"));
+        XOrderlyMessage message = getXOrderlyMessage(messageTest, 23);
+        byte[] bytes = message.msg2Byte();
+        try {
+            for (int i = 0; i < 10; i++) {
+                buffer.putData(bytes, bytes.length);
+                buffer.putData(new byte[]{(byte)12, (byte)23, (byte)45}, 3); //添加入乱数据
+            }
+
+            bytes = buffer.getData();
+            Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
+
+            List<IMessage> result = MessageUtils.parseMessageBytes(XOrderlyMessage.class, bytes);
+
+            Log.e("xuexiang", "size:" + result.size() + ", result:" + result.get(6).getProtocolItem());
+
+            buffer.recycle();
+        } catch (BufferException e) {
+            e.printStackTrace();
+        }
+    }
+
     private XMessage getXMessage(IProtocolItem protocolItem) {
-        return new XMessage(true).setIProtocolItem(protocolItem);
+        return new XMessage().setIProtocolItem(protocolItem);
     }
 
     private XOrderlyMessage getXOrderlyMessage(IProtocolItem protocolItem, int msgID) {
-        return new XOrderlyMessage(true)
+        return new XOrderlyMessage()
                 .setIProtocolItem(protocolItem)
                 .setMsgID(msgID);
     }

@@ -17,9 +17,10 @@
 package com.xuexiang.xtcp.core.message;
 
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.model.IProtocolItem;
 
 /**
- * 消息体都需要实现该接口
+ * 消息体都需要实现该接口，消息体是承载协议项的容器
  *
  * @author xuexiang
  * @since 2018/12/16 下午11:19
@@ -40,4 +41,23 @@ public interface IMessage {
      * @return 是否解析成功
      */
     boolean byte2Msg(byte[] bytes, StorageMode storageMode);
+
+    /**
+     * 设置消息的协议项
+     *
+     * @param protocolItem 协议项
+     * @param <T>
+     * @return
+     */
+    <T extends IMessage> T setIProtocolItem(IProtocolItem protocolItem);
+
+    /**
+     * @return 消息的协议项
+     */
+    IProtocolItem getProtocolItem();
+
+    /**
+     * @return 消息体最小长度
+     */
+    int getMinMessageLength();
 }

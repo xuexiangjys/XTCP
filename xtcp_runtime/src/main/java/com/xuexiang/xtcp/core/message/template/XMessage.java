@@ -128,7 +128,7 @@ public class XMessage implements IMessage {
 
     @Override
     public boolean byte2Msg(byte[] messageData, StorageMode storageMode) {
-        if (!MessageUtils.verifyMessage(MIN_MESSAGE_LENGTH, 5, 8, messageData, storageMode)) {
+        if (!MessageUtils.verifyMessage(getMinMessageLength(), 5, 8, messageData, storageMode)) {
             return false;
         }
 
@@ -139,7 +139,7 @@ public class XMessage implements IMessage {
         mCheckSum = ConvertUtils.bytesToShort(storageMode, messageData, 5);//校验和
         mRetCode = messageData[7];
 
-        if (messageData.length - MIN_MESSAGE_LENGTH > 0) {
+        if (messageData.length - getMinMessageLength() > 0) {
             String className = XProtocolCenter.getInstance().getClassNameByOpCode(mOpCode);
             try {
                 Class<?> clazz = Class.forName(className);
@@ -160,6 +160,11 @@ public class XMessage implements IMessage {
         return true;
     }
 
+    @Override
+    public int getMinMessageLength() {
+        return MIN_MESSAGE_LENGTH;
+    }
+
     /**
      * 计算帧的长度<br>
      * LEN =  (Len(2) + OpCode(1) + CheckSum(2) + Ret(1)) + DATA
@@ -171,14 +176,13 @@ public class XMessage implements IMessage {
         return (short) (dataBytes != null ? (dataBytes.length + 6) : 6);
     }
 
-    //========set===========//
-
     /**
      * 设置协议项
      *
      * @param protocolItem 协议项
      * @return
      */
+    @Override
     public XMessage setIProtocolItem(IProtocolItem protocolItem) {
         mIProtocolItem = protocolItem;
         mFrameHead = DEFAULT_FRAME_HEAD;
@@ -186,13 +190,20 @@ public class XMessage implements IMessage {
         return this;
     }
 
+    @Override
+    public IProtocolItem getProtocolItem() {
+        return mIProtocolItem;
+    }
+
+    //========set===========//
+
     public XMessage setFrameHead(byte[] frameHead) {
         mFrameHead = frameHead;
         return this;
     }
 
-    public XMessage setOpCode(byte funcCode) {
-        mOpCode = funcCode;
+    public XMessage setOpCode(byte opCode) {
+        mOpCode = opCode;
         return this;
     }
 
@@ -240,10 +251,6 @@ public class XMessage implements IMessage {
 
     public byte getRetCode() {
         return mRetCode;
-    }
-
-    public IProtocolItem getProtocolItem() {
-        return mIProtocolItem;
     }
 
     public byte[] getFrameEnd() {

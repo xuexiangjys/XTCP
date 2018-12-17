@@ -128,7 +128,7 @@ public class XOrderlyMessage implements IMessage {
 
     @Override
     public boolean byte2Msg(byte[] messageData, StorageMode storageMode) {
-        if (!MessageUtils.verifyMessage(MIN_MESSAGE_LENGTH, 7, 9, messageData, storageMode)) {
+        if (!MessageUtils.verifyMessage(getMinMessageLength(), 7, 9, messageData, storageMode)) {
             return false;
         }
 
@@ -139,7 +139,7 @@ public class XOrderlyMessage implements IMessage {
         mMsgID = ConvertUtils.bytesToShort(storageMode, messageData, 5); //消息序号
         mCheckSum = ConvertUtils.bytesToShort(storageMode, messageData, 7);//校验和
 
-        if (messageData.length - MIN_MESSAGE_LENGTH > 0) {
+        if (messageData.length - getMinMessageLength() > 0) {
             String className = XProtocolCenter.getInstance().getClassNameByOpCode(mOpCode);
             try {
                 Class<?> clazz = Class.forName(className);
@@ -160,6 +160,11 @@ public class XOrderlyMessage implements IMessage {
         return true;
     }
 
+    @Override
+    public int getMinMessageLength() {
+        return MIN_MESSAGE_LENGTH;
+    }
+
     /**
      * 计算帧的长度<br>
      * LEN =  (Len(2) + OpCode(1) + ID(2) + CheckSum(2)) + DATA
@@ -171,21 +176,27 @@ public class XOrderlyMessage implements IMessage {
         return (short) (dataBytes != null ? (dataBytes.length + 7) : 7);
     }
 
-
-    //========set===========//
-
     /**
      * 设置协议项
      *
      * @param protocolItem 协议项
      * @return
      */
+    @Override
     public XOrderlyMessage setIProtocolItem(IProtocolItem protocolItem) {
         mIProtocolItem = protocolItem;
         mFrameHead = DEFAULT_FRAME_HEAD;
         mFrameEnd = DEFAULT_FRAME_END;
         return this;
     }
+
+    @Override
+    public IProtocolItem getProtocolItem() {
+        return mIProtocolItem;
+    }
+
+    //========set===========//
+
 
     public XOrderlyMessage setFrameHead(byte[] frameHead) {
         mFrameHead = frameHead;
@@ -229,7 +240,7 @@ public class XOrderlyMessage implements IMessage {
     }
 
     public short getFrameLength() {
-        return (short) (mIProtocolItem != null ? (mIProtocolItem.getProtocolLength() + 6) : 6);
+        return (short) (mIProtocolItem != null ? (mIProtocolItem.getProtocolLength() + 7) : 7);
     }
 
     public byte getOpCode() {
@@ -246,10 +257,6 @@ public class XOrderlyMessage implements IMessage {
 
     public short getMsgID() {
         return mMsgID;
-    }
-
-    public IProtocolItem getProtocolItem() {
-        return mIProtocolItem;
     }
 
     public byte[] getFrameEnd() {

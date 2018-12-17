@@ -2,9 +2,9 @@ package com.xuexiang.xtcp;
 
 import android.support.annotation.NonNull;
 
-import com.xuexiang.xtcp.core.IProtocolParser;
+import com.xuexiang.xtcp.core.parser.IProtocolParser;
 import com.xuexiang.xtcp.core.XProtocolCenter;
-import com.xuexiang.xtcp.core.impl.DefaultProtocolParser;
+import com.xuexiang.xtcp.core.parser.impl.DefaultProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.logs.ILogger;
 import com.xuexiang.xtcp.logs.XTLog;

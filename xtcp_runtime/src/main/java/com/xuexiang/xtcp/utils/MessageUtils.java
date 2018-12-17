@@ -1,10 +1,14 @@
 package com.xuexiang.xtcp.utils;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.xuexiang.xtcp._XTCP;
+import com.xuexiang.xtcp.core.message.IMessage;
 import com.xuexiang.xtcp.enums.StorageMode;
 
-import static com.xuexiang.xtcp.core.XTCPConstants.SHORT_MAX_LENGTH;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 消息工具类
@@ -17,6 +21,94 @@ public final class MessageUtils {
     private MessageUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
+
+    //==============分包==================//
+    /**
+     * 解析消息包数据
+     *
+     * @param cls  消息体类
+     * @param data 数据
+     * @return 已解析的消息集合
+     */
+    public static List<IMessage> parseMessageBytes(Class<? extends IMessage> cls, @NonNull byte[] data) {
+        try {
+            return parseMessageBytes(cls, data, _XTCP.getDefaultStorageMode());
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 解析消息包数据
+     *
+     * @param cls  消息体类
+     * @param data 数据
+     * @param mode 存储方式
+     * @return 已解析的消息集合
+     */
+    public static List<IMessage> parseMessageBytes(Class<? extends IMessage> cls, @NonNull byte[] data, StorageMode mode) throws IllegalAccessException, InstantiationException {
+        IMessage message = cls.newInstance();
+        List<byte[]> packages = getSubPackage(data, message.getMinMessageLength());
+        if (packages == null || packages.size() == 0) {
+            return null;
+        }
+
+        List<IMessage> result = new ArrayList<>();
+        for (int i = 0; i < packages.size(); i++) {
+            message = cls.newInstance();
+            if (message.byte2Msg(packages.get(i), mode)) {
+                result.add(message);
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 获取默认消息模版的分包
+     *
+     * @param data
+     * @param minMessageLength 最小消息长度
+     * @return
+     */
+    @Nullable
+    public static List<byte[]> getSubPackage(@NonNull byte[] data, int minMessageLength) {
+        if (data.length < minMessageLength) {
+            return null;
+        }
+
+        //头索引
+        List<Integer> headIndex = new ArrayList<>();
+        //尾索引
+        List<Integer> endIndex = new ArrayList<>();
+
+        for (int i = 0; i < data.length - 1; i++) {
+            if (data[i] == (byte) 0x55 && data[i + 1] == (byte) 0xAA) {
+                headIndex.add(i);
+            } else if (data[i] == (byte) 0x00 && data[i + 1] == (byte) 0xFF) {
+                endIndex.add(i);
+            }
+        }
+
+        int size = Math.min(headIndex.size(), endIndex.size());
+        if (size == 0) {
+            return null;
+        }
+
+        List<byte[]> packages = new ArrayList<>();
+        byte[] tmp;
+        for (int i = 0; i < size; i++) {
+            tmp = new byte[endIndex.get(i) - headIndex.get(i) + 2];
+            System.arraycopy(data, headIndex.get(i), tmp, 0, tmp.length);
+            packages.add(tmp);
+        }
+        return packages;
+    }
+
+    //==============校验==================//
 
     /**
      * 计算校验和【简单地对数据内容进行相加】
@@ -33,8 +125,6 @@ public final class MessageUtils {
         }
         return checkSum;
     }
-
-    //==============校验==================//
 
     /**
      * 校验消息是否正确

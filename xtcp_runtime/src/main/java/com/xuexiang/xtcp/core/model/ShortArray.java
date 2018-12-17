@@ -9,8 +9,8 @@ import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.util.Arrays;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
-import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.SHORT_MAX_LENGTH;
 
 /**
  * short数组协议项<br>

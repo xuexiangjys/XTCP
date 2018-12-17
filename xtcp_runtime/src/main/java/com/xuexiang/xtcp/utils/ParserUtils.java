@@ -16,9 +16,9 @@ import com.xuexiang.xtcp.model.IProtocolItem;
 import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 
-import static com.xuexiang.xtcp.core.Constants.INT_MAX_LENGTH;
-import static com.xuexiang.xtcp.core.Constants.LONG_MAX_LENGTH;
-import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.INT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.LONG_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.SHORT_MAX_LENGTH;
 import static com.xuexiang.xtcp.enums.StorageMode.Default;
 
 /**

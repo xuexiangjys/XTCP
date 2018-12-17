@@ -7,7 +7,7 @@ import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
 
 /**
  * byte数组协议项 <br>

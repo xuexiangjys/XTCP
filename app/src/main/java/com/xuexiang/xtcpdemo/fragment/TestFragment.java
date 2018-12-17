@@ -5,7 +5,8 @@ import android.util.Log;
 import com.xuexiang.xaop.annotation.DebugLog;
 import com.xuexiang.xpage.annotation.Page;
 import com.xuexiang.xpage.base.XPageSimpleListFragment;
-import com.xuexiang.xtcp.core.message.XMessage;
+import com.xuexiang.xtcp.core.message.template.XMessage;
+import com.xuexiang.xtcp.core.message.template.XOrderlyMessage;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
@@ -27,7 +28,8 @@ public class TestFragment extends XPageSimpleListFragment {
     @Override
     protected List<String> initSimpleData(List<String> lists) {
         lists.add("测试byte化和反byte化");
-        lists.add("测试消息包装");
+        lists.add("测试无序消息XMessage包装");
+        lists.add("测试有序消息XOrderlyMessage包装");
         lists.add("性能测试");
         return lists;
     }
@@ -39,9 +41,12 @@ public class TestFragment extends XPageSimpleListFragment {
                 test();
                 break;
             case 1:
-                testMessage();
+                testXMessage();
                 break;
             case 2:
+                testXOrderlyMessage();
+                break;
+            case 3:
                 long time = 0;
                 for (int i = 0; i < 30; i++) {
                     time += test();
@@ -99,7 +104,7 @@ public class TestFragment extends XPageSimpleListFragment {
     }
 
     @DebugLog
-    private void testMessage() {
+    private void testXMessage() {
 
         MessageTest messageTest = new MessageTest()
                 .setFunc1((byte) 0x45)
@@ -114,7 +119,30 @@ public class TestFragment extends XPageSimpleListFragment {
         Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 
 
-        XMessage message1 = new XMessage();
+        XMessage message1 = new XMessage(true);
+        boolean result = message1.byte2Msg(bytes);
+
+        Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
+
+    }
+
+    @DebugLog
+    private void testXOrderlyMessage() {
+
+        MessageTest messageTest = new MessageTest()
+                .setFunc1((byte) 0x45)
+                .setFunc2((short) 12)
+                .setFunc3(2345)
+                .setFunc4((long) 1213131233)
+                .setList2((short) 11, (short) 22, (short) 33)
+                .setLoginInfo(new LoginInfo("xuexiang", "123456"));
+
+        XOrderlyMessage message = getXOrderlyMessage(messageTest, 23);
+        byte[] bytes = message.msg2Byte();
+        Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
+
+
+        XOrderlyMessage message1 = new XOrderlyMessage(true);
         boolean result = message1.byte2Msg(bytes);
 
         Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
@@ -122,6 +150,12 @@ public class TestFragment extends XPageSimpleListFragment {
     }
 
     private XMessage getXMessage(IProtocolItem protocolItem) {
-        return new XMessage().setIProtocolItem(protocolItem);
+        return new XMessage(true).setIProtocolItem(protocolItem);
+    }
+
+    private XOrderlyMessage getXOrderlyMessage(IProtocolItem protocolItem, int msgID) {
+        return new XOrderlyMessage(true)
+                .setIProtocolItem(protocolItem)
+                .setMsgID(msgID);
     }
 }

@@ -6,7 +6,7 @@ package com.xuexiang.xtcp.core;
  * @author xuexiang
  * @since 2018/12/14 下午6:23
  */
-public final class Constants {
+public final class XTCPConstants {
 
     /**
      * short所占byte的最大位数

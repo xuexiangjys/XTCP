@@ -20,9 +20,9 @@ import android.support.annotation.NonNull;
 
 import com.xuexiang.xtcp.enums.StorageMode;
 
-import static com.xuexiang.xtcp.core.Constants.INT_MAX_LENGTH;
-import static com.xuexiang.xtcp.core.Constants.LONG_MAX_LENGTH;
-import static com.xuexiang.xtcp.core.Constants.SHORT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.INT_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.LONG_MAX_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.SHORT_MAX_LENGTH;
 
 /**
  * 转换相关工具类

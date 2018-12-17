@@ -8,7 +8,7 @@ import com.xuexiang.xtcp.enums.StorageMode;
 
 import java.util.Arrays;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
 
 /**
  * 自定义协议数组【由于自定义的协议，其数组的类型不可知，故无法封装，只能自定义协议包装体】

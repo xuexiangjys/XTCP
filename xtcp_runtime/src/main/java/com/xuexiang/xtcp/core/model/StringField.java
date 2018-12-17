@@ -8,7 +8,7 @@ import com.xuexiang.xtcp.logs.XTLog;
 
 import java.nio.charset.Charset;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
 
 /**
  * String协议项<br>

@@ -9,7 +9,7 @@ import com.xuexiang.xtcp.utils.ConvertUtils;
 
 import java.nio.charset.Charset;
 
-import static com.xuexiang.xtcp.core.Constants.MAX_LARGE_ARRAY_LENGTH;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_LARGE_ARRAY_LENGTH;
 
 /**
  * 长String协议项<br>

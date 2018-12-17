@@ -39,7 +39,7 @@ android {
         applicationVariants.all { variant ->
             variant.outputs.all {
                 if (variant.buildType.name.equals('release')) {
-                    outputFileName = "xtcp_${defaultConfig.versionName}.apk"
+                    outputFileName = "xtcpdemo_${defaultConfig.versionName}.apk"
                 }
             }
         }

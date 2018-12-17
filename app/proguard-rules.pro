@@ -230,3 +230,12 @@
 -keepclassmembers class * {
     @com.xuexiang.xipc.annotation.* <methods>;
 }
+
+# xtcp
+-keep @com.xuexiang.xtcp.annotation.* class * {*;}
+-keep class * {
+    @com.xuexiang.xtcp.annotation.* <fields>;
+}
+-keepclassmembers class * {
+    @com.xuexiang.xtcp.annotation.* <methods>;
+}

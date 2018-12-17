@@ -29,7 +29,7 @@
 
 ### Demo下载
 
-[![downloads](https://img.shields.io/badge/downloads-1.3M-blue.svg)](https://github.com/xuexiangjys/XTCP/blob/master/apk/xtcpdemo_1.0.apk)
+[![downloads](https://img.shields.io/badge/downloads-1.3M-blue.svg)](https://github.com/xuexiangjys/XTCP/blob/master/apk/xtcpdemo_1.0.apk?raw=true)
 
 ![](https://github.com/xuexiangjys/XUpdate/blob/master/img/download.png)
 
@@ -147,7 +147,7 @@ public class LoginInfo extends XProtocolItem {
 
 #### 自定义协议项数组
 
-自定义协议项数组类需要继承`AbstractArrayItem`，详细的实现案例[点击查看](https://gitee.com/xuexiangjys/XTCP/blob/master/app/src/main/java/com/xuexiang/xtcpdemo/model/LoginInfoArray.java)
+自定义协议项数组类需要继承`AbstractArrayItem`，详细的实现案例[点击查看](https://github.com/xuexiangjys/XTCP/blob/master/app/src/main/java/com/xuexiang/xtcpdemo/model/LoginInfoArray.java)
 
 ### 2.5 协议项的byte化和反byte化
 
@@ -219,9 +219,9 @@ Log.e("xuexiang", request1.toString());
 
 实现`IMessage`接口，可自定义属于自己的协议消息载体。框架中默认提供了`XMessage`和`XOrderlyMessage`两种消息体模版。
 
-* XMessage: 无序消息体模版，无消息ID，无法检测是否丢包或者包重复。[详细实现点击查看](https://gitee.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/message/template/XMessage.java)
+* XMessage: 无序消息体模版，无消息ID，无法检测是否丢包或者包重复。[详细实现点击查看](https://github.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/message/template/XMessage.java)
 
-* XOrderlyMessage: 有序消息体模版, 可检测是否丢包或者包重复。[详细实现点击查看](https://gitee.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/message/template/XOrderlyMessage.java)
+* XOrderlyMessage: 有序消息体模版, 可检测是否丢包或者包重复。[详细实现点击查看](https://github.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/message/template/XOrderlyMessage.java)
 
 #### 消息转byte的使用方法
 
@@ -259,7 +259,7 @@ Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolIt
 
 ### 2.7 自定义协议解析器
 
-如果你对协议的解析有特殊的需求，可实现`IProtocolParser`接口，并通过`XTCP.getInstance().setIProtocolParser`来替换[默认的协议解析器](https://gitee.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/parser/impl/DefaultProtocolParser.java)。
+如果你对协议的解析有特殊的需求，可实现`IProtocolParser`接口，并通过`XTCP.getInstance().setIProtocolParser`来替换[默认的协议解析器](https://github.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/parser/impl/DefaultProtocolParser.java)。
 
 【注意】谨慎替换，如果替换方法有误的话，会导致整个框架无法正常使用，建议不要替换。
 

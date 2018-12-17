@@ -25,7 +25,7 @@ public @interface Protocol {
     /**
      * @return 协议命令码，协议命令的唯一号
      */
-    byte opcode();
+    byte opCode();
 
     /**
      * @return 协议响应码（结果对应的命令码）

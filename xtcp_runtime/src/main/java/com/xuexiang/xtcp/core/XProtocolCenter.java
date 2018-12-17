@@ -28,7 +28,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     private Map<String, ProtocolInfo> mClass2Info = new HashMap<>();
 
     /**
-     * opcode -> 协议信息
+     * opCode -> 协议信息
      */
     private Map<Byte, ProtocolInfo> mOpCode2Info = new HashMap<>();
 

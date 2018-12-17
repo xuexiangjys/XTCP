@@ -40,7 +40,7 @@ public interface IProtocolCenter {
     Map<String, ProtocolInfo> getClass2Info();
 
     /**
-     * @return 获取 opcode -> 协议信息 的映射
+     * @return 获取 opCode -> 协议信息 的映射
      */
     Map<Byte, ProtocolInfo> getOpCode2Info();
 

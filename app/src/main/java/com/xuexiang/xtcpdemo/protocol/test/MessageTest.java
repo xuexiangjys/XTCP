@@ -12,7 +12,7 @@ import static com.xuexiang.xtcp.model.ProtocolInfo.byte2HexString;
  * @author xuexiang
  * @since 2018/12/17 上午12:36
  */
-@Protocol(name = "测试消息包装", opcode = 0x34, resCode = 0x55)
+@Protocol(name = "测试消息包装", opCode = 0x34, resCode = 0x55)
 public class MessageTest extends XProtocolItem {
 
     @ProtocolField(index = 0)

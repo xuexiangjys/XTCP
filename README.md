@@ -263,7 +263,7 @@ Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolIt
 属性名 | 类型 | 默认值 | 备注
 :-|:-:|:-:|:-
 name | String | "" | 协议的名称
-opcode | byte | /(必填） | 协议命令码，协议命令的唯一号
+opCode | byte | /(必填） | 协议命令码，协议命令的唯一号
 resCode | byte | -1 | 协议响应码（结果对应的命令码）
 mode | StorageMode | StorageMode.Default | 数据存储方式（大端 or 小端）
 desc | String | "" | 描述信息

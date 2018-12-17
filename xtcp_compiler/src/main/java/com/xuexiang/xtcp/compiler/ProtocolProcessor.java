@@ -181,7 +181,7 @@ public class ProtocolProcessor extends AbstractProcessor {
              */
             FieldSpec opcode2InfoField = FieldSpec.builder(opcode2InfoType, "mOpCode2Info")
                     .addModifiers(Modifier.PRIVATE)
-                    .addJavadoc("opcode -> 协议信息")
+                    .addJavadoc("opCode -> 协议信息")
                     .initializer("new $T<>()", HashMap.class)
                     .build();
 
@@ -211,18 +211,18 @@ public class ProtocolProcessor extends AbstractProcessor {
                             ProtocolInfo.class,
                             name,
                             tm.toString(),
-                            protocol.opcode(),
+                            protocol.opCode(),
                             protocol.resCode(),
                             StorageMode.class,
                             protocol.mode(),
                             protocol.desc());
 
                     constructorBuilder.addStatement("mOpCode2Info.put((byte)$L, new $T($S, $S, (byte)$L, (byte)$L, $T.$L, $S))",
-                            protocol.opcode(),
+                            protocol.opCode(),
                             ProtocolInfo.class,
                             name,
                             tm.toString(),
-                            protocol.opcode(),
+                            protocol.opCode(),
                             protocol.resCode(),
                             StorageMode.class,
                             protocol.mode(),
@@ -259,9 +259,9 @@ public class ProtocolProcessor extends AbstractProcessor {
                     .addModifiers(Modifier.PUBLIC)
                     .addAnnotation(Override.class)
                     .addJavadoc("根据opcode获取协议的详细信息")
-                    .addParameter(byte.class, "opcode", Modifier.FINAL)
+                    .addParameter(byte.class, "opCode", Modifier.FINAL)
                     .returns(ProtocolInfo.class)
-                    .addStatement("return mOpCode2Info.get(opcode)")
+                    .addStatement("return mOpCode2Info.get(opCode)")
                     .build();
 
             MethodSpec getOpCodeByClassNameMethod = MethodSpec.methodBuilder("getOpCodeByClassName")

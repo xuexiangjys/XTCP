@@ -28,7 +28,7 @@ public @interface Protocol {
     byte opcode();
 
     /**
-     * @return 协议响应码（结果码）
+     * @return 协议响应码（结果对应的命令码）
      */
     byte resCode() default -1;
 

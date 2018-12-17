@@ -63,9 +63,9 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param iProtocolCenters 协议中心
      * @return
      */
-    public XProtocolCenter setIProtocolCenter(@NonNull IProtocolCenter... iProtocolCenters) {
+    public XProtocolCenter addIProtocolCenter(@NonNull IProtocolCenter... iProtocolCenters) {
         for (IProtocolCenter iProtocolCenter : iProtocolCenters) {
-            setIProtocolCenter(iProtocolCenter);
+            addIProtocolCenter(iProtocolCenter);
         }
         return this;
     }
@@ -76,7 +76,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param iProtocolCenter 协议中心
      * @return
      */
-    public XProtocolCenter setIProtocolCenter(@NonNull IProtocolCenter iProtocolCenter) {
+    public XProtocolCenter addIProtocolCenter(@NonNull IProtocolCenter iProtocolCenter) {
         mClass2Info.putAll(iProtocolCenter.getClass2Info());
         mOpCode2Info.putAll(iProtocolCenter.getOpCode2Info());
         return this;
@@ -88,9 +88,9 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param iIProtocolFieldCenters 协议字段中心
      * @return
      */
-    public XProtocolCenter setIProtocolFieldCenter(@NonNull IProtocolFieldCenter... iIProtocolFieldCenters) {
+    public XProtocolCenter addIProtocolFieldCenter(@NonNull IProtocolFieldCenter... iIProtocolFieldCenters) {
         for (IProtocolFieldCenter iProtocolFieldCenter : iIProtocolFieldCenters) {
-            setIProtocolFieldCenter(iProtocolFieldCenter);
+            addIProtocolFieldCenter(iProtocolFieldCenter);
         }
         return this;
     }
@@ -101,7 +101,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param iIProtocolFieldCenter 协议字段中心
      * @return
      */
-    public XProtocolCenter setIProtocolFieldCenter(@NonNull IProtocolFieldCenter iIProtocolFieldCenter) {
+    public XProtocolCenter addIProtocolFieldCenter(@NonNull IProtocolFieldCenter iIProtocolFieldCenter) {
         mClass2Fields.putAll(iIProtocolFieldCenter.getClass2Fields());
         return this;
     }

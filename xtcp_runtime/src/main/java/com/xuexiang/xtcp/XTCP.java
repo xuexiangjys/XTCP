@@ -50,8 +50,8 @@ public class XTCP {
      * @param iProtocolCenters
      * @return
      */
-    public XTCP setIProtocolCenter(IProtocolCenter... iProtocolCenters) {
-        XProtocolCenter.getInstance().setIProtocolCenter(iProtocolCenters);
+    public XTCP addIProtocolCenter(IProtocolCenter... iProtocolCenters) {
+        XProtocolCenter.getInstance().addIProtocolCenter(iProtocolCenters);
         return this;
     }
 
@@ -61,8 +61,8 @@ public class XTCP {
      * @param iProtocolFieldCenters
      * @return
      */
-    public XTCP setIProtocolFieldCenter(IProtocolFieldCenter... iProtocolFieldCenters) {
-        XProtocolCenter.getInstance().setIProtocolFieldCenter(iProtocolFieldCenters);
+    public XTCP addIProtocolFieldCenter(IProtocolFieldCenter... iProtocolFieldCenters) {
+        XProtocolCenter.getInstance().addIProtocolFieldCenter(iProtocolFieldCenters);
         return this;
     }
 

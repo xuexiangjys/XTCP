@@ -74,8 +74,8 @@ public class MyApp extends Application {
 
     private void initXTCP() {
         XTCP.getInstance()
-                .setIProtocolCenter(AppProtocolCenter.getInstance())
-                .setIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance())
+                .addIProtocolCenter(AppProtocolCenter.getInstance()) //添加协议中心
+                .addIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance()) //添加协议字段中心
                 .debug(true);
 
         Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x12).toString());

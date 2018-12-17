@@ -21,7 +21,6 @@ import com.xuexiang.xtcpdemo.protocol.test.MessageTest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
 import com.xuexiang.xutil.tip.ToastUtils;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -31,6 +30,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Page(name = "测试")
 public class TestFragment extends XPageSimpleListFragment {
+
+    private IBuffer buffer;
+
     @Override
     protected List<String> initSimpleData(List<String> lists) {
         lists.add("测试byte化和反byte化");
@@ -160,7 +162,9 @@ public class TestFragment extends XPageSimpleListFragment {
 
     @DebugLog
     private void testMultiMessage() {
-        IBuffer buffer = new CircularBuffer();
+        if (buffer == null) {
+            buffer = new CircularBuffer();
+        }
 
         MessageTest messageTest = new MessageTest()
                 .setFunc1((byte) 0x45)
@@ -184,7 +188,7 @@ public class TestFragment extends XPageSimpleListFragment {
 
             Log.e("xuexiang", "size:" + result.size() + ", result:" + result.get(6).getProtocolItem());
 
-            buffer.recycle();
+            buffer.clear();
         } catch (BufferException e) {
             e.printStackTrace();
         }

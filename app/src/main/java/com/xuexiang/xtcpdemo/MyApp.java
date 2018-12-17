@@ -17,6 +17,7 @@ import com.xuexiang.xtcp.XTCP;
 import com.xuexiang.xtcp.XTCPProtocolFieldCenter;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.model.IntArray;
+import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xutil.XUtil;
 import com.xuexiang.xutil.common.StringUtils;
 import com.xuexiang.xutil.net.JsonUtil;
@@ -76,6 +77,7 @@ public class MyApp extends Application {
         XTCP.getInstance()
                 .addIProtocolCenter(AppProtocolCenter.getInstance()) //添加协议中心
                 .addIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance()) //添加协议字段中心
+                .setDefaultStorageMode(StorageMode.BigEndian) //设置默认存储方式
                 .debug(true);
 
         Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x12).toString());

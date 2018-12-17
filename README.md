@@ -73,6 +73,7 @@ defaultConfig {
 XTCP.getInstance()
         .addIProtocolCenter(AppProtocolCenter.getInstance()) //添加协议中心
         .addIProtocolFieldCenter(AppProtocolFieldCenter.getInstance(), XTCPProtocolFieldCenter.getInstance()) //添加协议字段中心
+        .setDefaultStorageMode(StorageMode.BigEndian) //设置默认存储方式（默认是大端）
         .debug(true); //打开调试日志
 ```
 
@@ -246,6 +247,12 @@ boolean result = message1.byte2Msg(bytes);
 
 Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
 ```
+
+### 2.7 自定义协议解析器
+
+如果你对协议的解析有特殊的需求，可实现`IProtocolParser`接口，并通过`XTCP.getInstance().setIProtocolParser`来替换[默认的协议解析器](https://gitee.com/xuexiangjys/XTCP/blob/master/xtcp_runtime/src/main/java/com/xuexiang/xtcp/core/parser/impl/DefaultProtocolParser.java)。
+
+【注意】谨慎替换，如果替换方法有误的话，会导致整个框架无法正常使用，建议不要替换。
 
 -----
 

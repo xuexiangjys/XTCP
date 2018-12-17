@@ -1,7 +1,7 @@
 # XTCP
 [![xtcp][xtcpsvg]][xtcp]  [![api][apisvg]][api]
 
-便捷的TCP消息包拼装和解析框架
+一个便捷的TCP消息包拼装和解析框架
 
 ## 关于我
 

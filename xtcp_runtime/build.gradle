@@ -34,3 +34,6 @@ dependencies {
     annotationProcessor project(':xtcp_compiler')
 
 }
+
+apply from: "../JitPackUpload.gradle"
+

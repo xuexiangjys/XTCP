@@ -31,7 +31,7 @@
 
 [![downloads](https://img.shields.io/badge/downloads-1.3M-blue.svg)](https://github.com/xuexiangjys/XTCP/blob/master/apk/xtcpdemo_1.0.apk?raw=true)
 
-![](https://github.com/xuexiangjys/XUpdate/blob/master/img/download.png)
+![](https://github.com/xuexiangjys/XTCP/blob/master/img/download.png)
 
 ## 2、如何使用
 

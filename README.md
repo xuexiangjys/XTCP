@@ -1,4 +1,5 @@
 # XTCP
+[![xtcp][xtcpsvg]][xtcp]  [![api][apisvg]][api]
 
 便捷的TCP消息包拼装和解析框架
 
@@ -23,6 +24,14 @@
 * 支持自动协议映射，自动根据读取的opcode识别出对应的协议并进行解析，并根据对应注册的协议信息判断协议是否有响应。
 
 -------
+
+## 1、演示（请star支持）
+
+### Demo下载
+
+[![downloads](https://img.shields.io/badge/downloads-1.3M-blue.svg)](https://github.com/xuexiangjys/XTCP/blob/master/apk/xtcpdemo_1.0.apk)
+
+![](https://github.com/xuexiangjys/XUpdate/blob/master/img/download.png)
 
 ## 2、如何使用
 
@@ -302,3 +311,14 @@ LargeString | String | 65535
     @com.xuexiang.xtcp.annotation.* <methods>;
 }
 ```
+
+## 联系方式
+
+[![](https://img.shields.io/badge/点击一键加入QQ交流群-602082750-blue.svg)](http://shang.qq.com/wpa/qunwpa?idkey=9922861ef85c19f1575aecea0e8680f60d9386080a97ed310c971ae074998887)
+
+![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
+
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.0-brightgreen.svg
+[xtcp]: https://github.com/xuexiangjys/XTCP
+[apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
+[api]: https://android-arsenal.com/api?level=14

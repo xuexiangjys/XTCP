@@ -57,11 +57,11 @@ dependencies {
     androidTestImplementation deps.runner
     androidTestImplementation deps.espresso.core
 
-//    implementation project(':xtcp_runtime')
-//    annotationProcessor project(':xtcp_compiler')
+    implementation project(':xtcp_runtime')
+    annotationProcessor project(':xtcp_compiler')
 
-    implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.0'
-    annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.0'
+//    implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.0'
+//    annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.0'
 
     //工具类
     implementation 'com.github.xuexiangjys.XUtil:xutil-core:1.1.5'

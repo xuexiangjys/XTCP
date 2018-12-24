@@ -24,9 +24,6 @@ public class DefaultProtocolParser implements IProtocolParser {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             XTLog.eTag(TAG, e);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            XTLog.eTag(TAG, e);
         }
         return 0;
     }
@@ -38,9 +35,6 @@ public class DefaultProtocolParser implements IProtocolParser {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             XTLog.eTag(TAG, e);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-            XTLog.eTag(TAG, e);
         }
         return new byte[0];
     }
@@ -50,9 +44,6 @@ public class DefaultProtocolParser implements IProtocolParser {
         try {
             return ParserUtils.byte2ProtoBody(obj, bytes, index, tailLength, storageMode);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            XTLog.eTag(TAG, e);
-        } catch (NoSuchFieldException e) {
             e.printStackTrace();
             XTLog.eTag(TAG, e);
         } catch (InstantiationException e) {

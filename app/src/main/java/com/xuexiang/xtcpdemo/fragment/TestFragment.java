@@ -19,6 +19,11 @@ import com.xuexiang.xtcpdemo.model.LoginInfo;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
 import com.xuexiang.xtcpdemo.protocol.test.MessageTest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
+import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestByteArray;
+import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestIntArray;
+import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestLongArray;
+import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestShortArray;
+import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestStringItem;
 import com.xuexiang.xutil.tip.ToastUtils;
 
 import java.util.List;
@@ -39,13 +44,14 @@ public class TestFragment extends XPageSimpleListFragment {
         lists.add("测试无序消息XMessage包装");
         lists.add("测试有序消息XOrderlyMessage包装");
         lists.add("测试多个消息包的解析");
+        lists.add("测试不定长数组");
         lists.add("性能测试");
         return lists;
     }
 
     @Override
     protected void onItemClick(int position) {
-        switch(position) {
+        switch (position) {
             case 0:
                 test();
                 break;
@@ -59,6 +65,9 @@ public class TestFragment extends XPageSimpleListFragment {
                 testMultiMessage();
                 break;
             case 4:
+                testIndefiniteArray();
+                break;
+            case 5:
                 long time = 0;
                 for (int i = 0; i < 30; i++) {
                     time += test();
@@ -133,7 +142,7 @@ public class TestFragment extends XPageSimpleListFragment {
         XMessage message1 = new XMessage();
         boolean result = message1.byte2Msg(bytes);
 
-        Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
+        Log.e("xuexiang", "result:" + result + ", ProtocolItem:" + message1.getProtocolItem());
 
     }
 
@@ -156,7 +165,7 @@ public class TestFragment extends XPageSimpleListFragment {
         XOrderlyMessage message1 = new XOrderlyMessage();
         boolean result = message1.byte2Msg(bytes);
 
-        Log.e("xuexiang", "result:" + result +", ProtocolItem:" + message1.getProtocolItem());
+        Log.e("xuexiang", "result:" + result + ", ProtocolItem:" + message1.getProtocolItem());
 
     }
 
@@ -178,7 +187,7 @@ public class TestFragment extends XPageSimpleListFragment {
         try {
             for (int i = 0; i < 10; i++) {
                 buffer.putData(bytes, bytes.length);
-                buffer.putData(new byte[]{(byte)12, (byte)23, (byte)45}, 3); //添加入乱数据
+                buffer.putData(new byte[]{(byte) 12, (byte) 23, (byte) 45}, 3); //添加入乱数据
             }
 
             bytes = buffer.getData();
@@ -202,5 +211,79 @@ public class TestFragment extends XPageSimpleListFragment {
         return new XOrderlyMessage()
                 .setIProtocolItem(protocolItem)
                 .setMsgID(msgID);
+    }
+
+    @DebugLog
+    private void testIndefiniteArray() {
+        byte[] bytes;
+
+        TestByteArray testBytes = new TestByteArray()
+                .setFunc1((byte) 0x4a)
+                .setFunc2((short) 42)
+                .setFunc3(65844)
+                .setFunc4((long) 1213891233)
+                .setBytes(new byte[]{(byte) 0x25, (byte) 0x67, (byte) 0xa2});
+        bytes = testBytes.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
+
+        TestByteArray testBytes1 = new TestByteArray();
+        testBytes1.byte2proto(bytes, 0, 0, StorageMode.Default);
+        Log.e("xuexiang", testBytes1.toString());
+
+
+        TestShortArray testShorts = new TestShortArray()
+                .setFunc1((byte) 0x4a)
+                .setFunc2((short) 42)
+                .setFunc3(65844)
+                .setFunc4((long) 1213891233)
+                .setShorts(new short[]{(short) 234, (short) 456, (short) 678, (short) 890});
+        bytes = testShorts.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
+
+        TestShortArray testShorts1 = new TestShortArray();
+        testShorts1.byte2proto(bytes, 0, 0, StorageMode.Default);
+        Log.e("xuexiang", testShorts1.toString());
+
+
+        TestIntArray testInts = new TestIntArray()
+                .setFunc1((byte) 0x4a)
+                .setFunc2((short) 42)
+                .setFunc3(65844)
+                .setFunc4((long) 1213891233)
+                .setInts(new int[]{3451, 31314, 425245, 1314414, 445241});
+        bytes = testInts.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
+
+        TestIntArray testInts1 = new TestIntArray();
+        testInts1.byte2proto(bytes, 0, 0, StorageMode.Default);
+        Log.e("xuexiang", testInts1.toString());
+
+
+        TestLongArray testLong = new TestLongArray()
+                .setFunc1((byte) 0x4a)
+                .setFunc2((short) 42)
+                .setFunc3(65844)
+                .setFunc4((long) 1213891233)
+                .setLongs(new long[]{2451568990L, 3567245046L, 3428475095L, 2439078690L, 11235789036L});
+        bytes = testLong.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
+
+        TestLongArray testLong1 = new TestLongArray();
+        testLong1.byte2proto(bytes, 0, 0, StorageMode.Default);
+        Log.e("xuexiang", testLong1.toString());
+
+
+        TestStringItem testString = new TestStringItem()
+                .setFunc1((byte) 0x4a)
+                .setFunc2((short) 42)
+                .setFunc3(65844)
+                .setFunc4((long) 1213891233)
+                .setString("我的名字叫薛翔！我的名字叫薛翔！");
+        bytes = testString.proto2byte(StorageMode.Default);
+        Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
+
+        TestStringItem testString1 = new TestStringItem();
+        testString1.byte2proto(bytes, 0, 0, StorageMode.Default);
+        Log.e("xuexiang", testString1.toString());
     }
 }

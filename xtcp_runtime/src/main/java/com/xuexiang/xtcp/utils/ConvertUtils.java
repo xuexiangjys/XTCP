@@ -59,6 +59,27 @@ public final class ConvertUtils {
         return stringBuilder.toString();
     }
 
+    /***
+     * byte[] 转16进制字符串[空格隔开]
+     * @param src
+     * @return
+     */
+    public static String bytesToHex(byte[] src) {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (src == null || src.length <= 0) {
+            return null;
+        }
+        for (int i = 0; i < src.length; i++) {
+            int v = src[i] & 0xFF;
+            String hv = Integer.toHexString(v);
+            if (hv.length() < 2) {
+                stringBuilder.append(0);
+            }
+            stringBuilder.append(hv).append(" ");
+        }
+        return stringBuilder.toString();
+    }
+
     /**
      * hexString转byteArr
      *
@@ -319,6 +340,7 @@ public final class ConvertUtils {
     }
 
     // ======================【大小端转化】=====================================//
+
     /**
      * 大端值转小端
      *
@@ -342,7 +364,6 @@ public final class ConvertUtils {
         byte[] src = valueToBytes(StorageMode.LittleEndian, value, length);
         return readBytes(StorageMode.BigEndian, src, 0, length);
     }
-
 
 
 }

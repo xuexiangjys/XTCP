@@ -21,6 +21,8 @@
 
 * 支持自定义协议项和协议解析器。
 
+* 支持不定长数组解析。
+
 * 支持自动协议映射，自动根据读取的opcode识别出对应的协议并进行解析，并根据对应注册的协议信息判断协议是否有响应。
 
 -------
@@ -54,8 +56,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.0'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.0'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.1'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.1'
 }
 ```
 
@@ -299,6 +301,8 @@ LongArray | long\[\] | 255
 StringField | String | 255
 LargeString | String | 65535
 
+【注意】:框架支持不定长数组，如果你的数组长度不定（没有确定长度的字段），那么你有且只能有这么一个数组可以不使用以上的数组包装类。
+
 ## 4、混淆配置
 
 ```
@@ -318,7 +322,7 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.0-brightgreen.svg
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.1-brightgreen.svg
 [xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

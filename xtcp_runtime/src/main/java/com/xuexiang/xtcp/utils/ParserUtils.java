@@ -58,30 +58,30 @@ public final class ParserUtils {
             if (protocolField.length() > 0) {
                 length += protocolField.length();
             } else {
-                if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
+                if (byte.class.equals(fieldType)) {
                     length += 1;
-                } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
+                } else if (short.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, SHORT_MAX_LENGTH);
-                } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
+                } else if (int.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, INT_MAX_LENGTH);
-                } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
+                } else if (long.class.equals(fieldType)) {
                     length += getFieldLength(protocolField, LONG_MAX_LENGTH);
-                } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
+                } else if (byte[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((byte[]) data).length;
                     }
-                } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
+                } else if (short[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((short[]) data).length * getFieldLength(protocolField, SHORT_MAX_LENGTH);
                     }
-                } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
+                } else if (int[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((int[]) data).length * getFieldLength(protocolField, INT_MAX_LENGTH);
                     }
-                } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
+                } else if (long[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         length += ((long[]) data).length * getFieldLength(protocolField, LONG_MAX_LENGTH);
@@ -145,30 +145,30 @@ public final class ParserUtils {
             if (protocolField.length() > 0) {
                 leftLength += protocolField.length();
             } else {
-                if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
+                if (byte.class.equals(fieldType)) {
                     leftLength += 1;
-                } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
+                } else if (short.class.equals(fieldType)) {
                     leftLength += getFieldLength(protocolField, SHORT_MAX_LENGTH);
-                } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
+                } else if (int.class.equals(fieldType)) {
                     leftLength += getFieldLength(protocolField, INT_MAX_LENGTH);
-                } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
+                } else if (long.class.equals(fieldType)) {
                     leftLength += getFieldLength(protocolField, LONG_MAX_LENGTH);
-                } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
+                } else if (byte[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         leftLength += ((byte[]) data).length;
                     }
-                } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
+                } else if (short[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         leftLength += ((short[]) data).length * getFieldLength(protocolField, SHORT_MAX_LENGTH);
                     }
-                } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
+                } else if (int[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         leftLength += ((int[]) data).length * getFieldLength(protocolField, INT_MAX_LENGTH);
                     }
-                } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
+                } else if (long[].class.equals(fieldType)) {
                     Object data = field.get(obj);
                     if (data != null) {
                         leftLength += ((long[]) data).length * getFieldLength(protocolField, LONG_MAX_LENGTH);
@@ -243,18 +243,18 @@ public final class ParserUtils {
             mode = getStorageMode(protocolMode, protocolField.mode());
 
             // 开始各种类型的处理
-            if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
+            if (byte.class.equals(fieldType)) {
                 field.set(obj, bytes[offset]);
                 offset += 1;
-            } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
+            } else if (short.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToShort(mode, bytes, offset, length));
                 offset += length;
-            } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
+            } else if (int.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToInt(mode, bytes, offset, length));
                 offset += length;
-            } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
+            } else if (long.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 field.set(obj, ConvertUtils.bytesToLong(mode, bytes, offset, length));
                 offset += length;
@@ -278,7 +278,7 @@ public final class ParserUtils {
                     XTLog.e("IProtocolItem.class 自定义协议项解析失败，错误字段: " + getFieldInfo(classType, fieldType, field));
                     return false;
                 }
-            } else if (byte[].class.isAssignableFrom(fieldType) || Byte[].class.isAssignableFrom(fieldType)) {
+            } else if (byte[].class.isAssignableFrom(fieldType)) {
                 int leftParseLength = getLeftArrayParseLength(obj, bytes, tailLength, offset, field);
                 if (leftParseLength > 0) {
                     byte[] temp = new byte[leftParseLength];
@@ -289,7 +289,7 @@ public final class ParserUtils {
                     XTLog.e("剩余长度无法解析，错误字段: " + getFieldInfo(classType, fieldType, field));
                     return false;
                 }
-            } else if (short[].class.isAssignableFrom(fieldType) || Short[].class.isAssignableFrom(fieldType)) {
+            } else if (short[].class.isAssignableFrom(fieldType)) {
                 int leftParseLength = getLeftArrayParseLength(obj, bytes, tailLength, offset, field);
                 if (leftParseLength > 0) {
                     length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
@@ -303,7 +303,7 @@ public final class ParserUtils {
                     XTLog.e("剩余长度无法解析，错误字段: " + getFieldInfo(classType, fieldType, field));
                     return false;
                 }
-            } else if (int[].class.isAssignableFrom(fieldType) || Integer[].class.isAssignableFrom(fieldType)) {
+            } else if (int[].class.isAssignableFrom(fieldType)) {
                 int leftParseLength = getLeftArrayParseLength(obj, bytes, tailLength, offset, field);
                 if (leftParseLength > 0) {
                     length = getFieldLength(protocolField, INT_MAX_LENGTH);
@@ -318,7 +318,7 @@ public final class ParserUtils {
                     return false;
                 }
 
-            } else if (long[].class.isAssignableFrom(fieldType) || Long[].class.isAssignableFrom(fieldType)) {
+            } else if (long[].class.isAssignableFrom(fieldType)) {
                 int leftParseLength = getLeftArrayParseLength(obj, bytes, tailLength, offset, field);
                 if (leftParseLength > 0) {
                     length = getFieldLength(protocolField, LONG_MAX_LENGTH);
@@ -411,40 +411,40 @@ public final class ParserUtils {
             }
 
             // 开始各种类型的处理
-            if (byte.class.equals(fieldType) || Byte.class.equals(fieldType)) {
+            if (byte.class.equals(fieldType)) {
                 res[offset] = (byte) value;
                 offset += 1;
-            } else if (short.class.equals(fieldType) || Short.class.equals(fieldType)) {
+            } else if (short.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 ConvertUtils.fillShortToBytes(mode, (short) value, res, offset, length);
                 offset += length;
-            } else if (int.class.equals(fieldType) || Integer.class.equals(fieldType)) {
+            } else if (int.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 ConvertUtils.fillIntToBytes(mode, (int) value, res, offset, length);
                 offset += length;
-            } else if (long.class.equals(fieldType) || Long.class.equals(fieldType)) {
+            } else if (long.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 ConvertUtils.fillLongToBytes(mode, (long) value, res, offset, length);
                 offset += length;
-            } else if (byte[].class.equals(fieldType) || Byte[].class.equals(fieldType)) {
+            } else if (byte[].class.equals(fieldType)) {
                 byte[] tmp = (byte[]) value;
                 System.arraycopy(tmp, 0, res, offset, tmp.length);
                 offset += tmp.length;
-            } else if (short[].class.equals(fieldType) || Short[].class.equals(fieldType)) {
+            } else if (short[].class.equals(fieldType)) {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 short[] tmp = (short[]) value;
                 for (short s : tmp) {
                     ConvertUtils.fillShortToBytes(mode, s, res, offset, length);
                     offset += length;
                 }
-            } else if (int[].class.equals(fieldType) || Integer[].class.equals(fieldType)) {
+            } else if (int[].class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 int[] tmp = (int[]) value;
                 for (int i : tmp) {
                     ConvertUtils.fillIntToBytes(mode, i, res, offset, length);
                     offset += length;
                 }
-            } else if (long[].class.equals(fieldType) || Long[].class.equals(fieldType)) {
+            } else if (long[].class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 long[] tmp = (long[]) value;
                 for (long l : tmp) {

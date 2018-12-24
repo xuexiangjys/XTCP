@@ -141,6 +141,27 @@ public final class ConvertUtils {
         }
     }
 
+    /**
+     * 将值转化为byte数组
+     *
+     * @param mode   存储方式
+     * @param value  数值
+     * @param length 数值的长度
+     */
+    private static byte[] valueToBytes(StorageMode mode, int value, int length) {
+        byte[] bytes = new byte[length];
+        if (StorageMode.LittleEndian.equals(mode)) {
+            for (int i = 0; i < length; i++) {
+                bytes[i] = (byte) ((value >> (i * 8)) & 0xFF);
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                bytes[length - i - 1] = (byte) ((value >> (i * 8)) & 0xFF);
+            }
+        }
+        return bytes;
+    }
+
     // ======================【byte数组<-->（无符号）short】=====================================//
 
     /**
@@ -296,6 +317,32 @@ public final class ConvertUtils {
         }
         return offset + length;
     }
+
+    // ======================【大小端转化】=====================================//
+    /**
+     * 大端值转小端
+     *
+     * @param value
+     * @param length
+     * @return
+     */
+    public static int bigEndianToLittleEndian(int value, int length) {
+        byte[] src = valueToBytes(StorageMode.BigEndian, value, length);
+        return readBytes(StorageMode.LittleEndian, src, 0, length);
+    }
+
+    /**
+     * 小端值转大端
+     *
+     * @param value
+     * @param length
+     * @return
+     */
+    public static int littleEndianToBigEndian(int value, int length) {
+        byte[] src = valueToBytes(StorageMode.LittleEndian, value, length);
+        return readBytes(StorageMode.BigEndian, src, 0, length);
+    }
+
 
 
 }

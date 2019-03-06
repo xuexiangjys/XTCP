@@ -4,6 +4,7 @@ import com.xuexiang.xtcp.annotation.Protocol;
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.model.BCD;
 import com.xuexiang.xtcp.core.model.ByteArray;
+import com.xuexiang.xtcp.core.model.FixedString;
 import com.xuexiang.xtcp.core.model.IntArray;
 import com.xuexiang.xtcp.core.model.LargeString;
 import com.xuexiang.xtcp.core.model.LongArray;
@@ -52,6 +53,8 @@ public class SettingRequest extends XProtocolItem {
     @ProtocolField(index = 12)
     private BCD<Date> time = new BCD<>(Date.class, "yy-MM-dd HH:mm:ss");
     @ProtocolField(index = 13)
+    private FixedString ID = new FixedString(10);
+    @ProtocolField(index = 14)
     private LoginInfoArray loginInfos;
 
     public SettingRequest() {
@@ -123,6 +126,11 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setID(String id) {
+        ID.setFixedString(id);
+        return this;
+    }
+
     public SettingRequest setLoginInfos(LoginInfo... loginInfos) {
         this.loginInfos= LoginInfoArray.wrap(loginInfos);
         return this;
@@ -144,6 +152,7 @@ public class SettingRequest extends XProtocolItem {
                 ", testItem=" + testItem +
                 ", loginInfo=" + loginInfo +
                 ", time=" + time.getFormatValue() +
+                ", ID=" + ID.getFixedString() +
                 ", loginInfos=" + loginInfos +
                 '}';
     }

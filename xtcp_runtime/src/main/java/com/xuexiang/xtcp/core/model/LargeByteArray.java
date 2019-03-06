@@ -83,7 +83,7 @@ public class LargeByteArray extends AbstractArrayItem {
     @Override
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new byte[getLength()];
-        if (bytes.length - index - tailLength < mLength) { //剩余数据不够解析
+        if (isDataEnoughToParse(bytes, index, tailLength, mLength)) { //剩余数据不够解析
             XTLog.d("[LargeByteArray] 剩余数据不够解析，直接退出！");
             return false;
         }

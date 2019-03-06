@@ -86,7 +86,7 @@ public class ShortArray extends AbstractArrayItem {
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new short[getLength()];
         int dataFieldLength = getArrayFieldLength(FIELD_NAME_DATA, SHORT_MAX_LENGTH);
-        if (bytes.length - index - tailLength < mLength * dataFieldLength) { //剩余数据不够解析
+        if (isDataEnoughToParse(bytes, index, tailLength, mLength * dataFieldLength)) { //剩余数据不够解析
             XTLog.d("[ShortArray] 剩余数据不够解析，直接退出！");
             return false;
         }

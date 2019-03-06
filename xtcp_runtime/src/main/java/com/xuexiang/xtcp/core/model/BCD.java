@@ -1,6 +1,7 @@
 package com.xuexiang.xtcp.core.model;
 
 import com.xuexiang.xtcp.enums.StorageMode;
+import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.BCDUtils;
 
@@ -109,6 +110,12 @@ public class BCD<T> implements IProtocolItem {
         if (bytes == null || mData == null) {
             return false;
         }
+
+        if (bytes.length - index - tailLength < mData.length) { //剩余数据不够解析
+            XTLog.d("[BCD] 剩余数据不够解析，直接退出！");
+            return false;
+        }
+
         System.arraycopy(bytes, index, mData, 0, mData.length);
         if (mType == null || mFormat == null || mData == null) {
             return false;

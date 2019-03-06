@@ -84,7 +84,7 @@ public class IntArray extends AbstractArrayItem {
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
         mData = new int[getLength()];
         int dataFieldLength = getArrayFieldLength(FIELD_NAME_DATA, INT_MAX_LENGTH);
-        if (bytes.length - index - tailLength < mLength * dataFieldLength) { //剩余数据不够解析
+        if (isDataEnoughToParse(bytes, index, tailLength, mLength * dataFieldLength)) { //剩余数据不够解析
             XTLog.d("[IntArray] 剩余数据不够解析，直接退出！");
             return false;
         }

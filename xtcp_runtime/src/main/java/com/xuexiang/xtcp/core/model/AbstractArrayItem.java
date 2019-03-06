@@ -49,6 +49,19 @@ public abstract class AbstractArrayItem implements IArrayItem {
     }
 
     /**
+     * 数据是否足够解析
+     *
+     * @param bytes       数据集合[整个消息体数据，包含头和尾]
+     * @param index       起始字节
+     * @param tailLength  消息尾的长度[和index一起决定了数据解析的范围]
+     * @param parseLength 需要解析的长度
+     * @return
+     */
+    protected boolean isDataEnoughToParse(byte[] bytes, int index, int tailLength, int parseLength) {
+        return bytes.length - index - tailLength < parseLength;
+    }
+
+    /**
      * 获取数组协议字段的长度
      *
      * @param fieldName 字段名

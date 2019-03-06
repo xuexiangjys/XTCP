@@ -13,6 +13,8 @@
 
 * 支持byte、short、int、long、byte\[\]、short\[\]、int\[\]、long\[\]、String等常用基础类型，支持类型的拓展
 
+* 支持BCD编码格式。
+
 * 支持大端和小端两种存储方式，支持设置全局默认存储方式和局部存储方式。
 
 * 支持short、int、long读取长度的自定义。
@@ -56,8 +58,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.1'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.1'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.2'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.2'
 }
 ```
 
@@ -322,7 +324,7 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.1-brightgreen.svg
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.2-brightgreen.svg
 [xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

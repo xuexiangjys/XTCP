@@ -80,7 +80,7 @@ public class MyApp extends Application {
                 .setDefaultStorageMode(StorageMode.BigEndian) //设置默认存储方式
                 .debug(true);
 
-        Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x12).toString());
+        Log.e("xuexiang", XProtocolCenter.getInstance().getProtocol((byte) 0x34).toString());
 
         Log.e("xuexiang", Arrays.toString(XProtocolCenter.getInstance().getProtocolFields(IntArray.class.getName())));
 

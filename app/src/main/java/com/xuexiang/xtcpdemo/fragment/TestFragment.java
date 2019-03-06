@@ -86,7 +86,7 @@ public class TestFragment extends XPageSimpleListFragment {
         long startNanos = System.nanoTime();
         SettingRequest request = new SettingRequest()
                 .setFunc1((byte) 0x45)
-                .setFunc2((short) 12)
+                .setFunc2((short) -12)
                 .setFunc3(2345)
                 .setFunc4((long) 1213131233)
                 .setList1((byte) 0x23, (byte) 0x45, (byte) 0x56)

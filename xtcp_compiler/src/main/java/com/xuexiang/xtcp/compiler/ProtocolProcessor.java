@@ -217,16 +217,18 @@ public class ProtocolProcessor extends AbstractProcessor {
                             protocol.mode(),
                             protocol.desc());
 
-                    constructorBuilder.addStatement("mOpCode2Info.put((byte)$L, new $T($S, $S, (byte)$L, (byte)$L, $T.$L, $S))",
-                            protocol.opCode(),
-                            ProtocolInfo.class,
-                            name,
-                            tm.toString(),
-                            protocol.opCode(),
-                            protocol.resCode(),
-                            StorageMode.class,
-                            protocol.mode(),
-                            protocol.desc());
+                    if (protocol.resCode() == -1) {  //resCode == -1时代表该协议是响应消息
+                        constructorBuilder.addStatement("mOpCode2Info.put((byte)$L, new $T($S, $S, (byte)$L, (byte)$L, $T.$L, $S))",
+                                protocol.opCode(),
+                                ProtocolInfo.class,
+                                name,
+                                tm.toString(),
+                                protocol.opCode(),
+                                protocol.resCode(),
+                                StorageMode.class,
+                                protocol.mode(),
+                                protocol.desc());
+                    }
                 }
             }
 

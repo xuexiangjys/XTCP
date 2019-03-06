@@ -23,17 +23,17 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     private static volatile XProtocolCenter sInstance = null;
 
     /**
-     * 协议类名 -> 协议信息
+     * 协议类名 -> 协议信息【message -> bytes】
      */
     private Map<String, ProtocolInfo> mClass2Info = new HashMap<>();
 
     /**
-     * opCode -> 协议信息
+     * opCode -> 协议信息【bytes -> message】
      */
     private Map<Byte, ProtocolInfo> mOpCode2Info = new HashMap<>();
 
     /**
-     * 类名 -> 协议字段名集合
+     * 类名 -> 协议字段名集合【数据解析时使用】
      */
     private Map<String, ProtocolFieldInfo> mClass2Fields = new HashMap<>();
 
@@ -124,7 +124,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     }
 
     /**
-     * 根据协议的类名获取对应的OpCode
+     * 根据协议的类名获取对应的OpCode（在将协议自动转为byte放入消息体时调用）【message -> bytes】
      */
     @Override
     public byte getOpCodeByClassName(final String className) {
@@ -165,7 +165,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
     }
 
     /**
-     * 根据opCode获取协议类名
+     * 根据opCode获取协议类名（在获取到byte数据后，根据opcode获取协议的类名进行反射构建）【bytes -> message】
      *
      * @param opCode
      * @return

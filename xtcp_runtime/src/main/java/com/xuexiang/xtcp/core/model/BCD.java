@@ -1,5 +1,7 @@
 package com.xuexiang.xtcp.core.model;
 
+import android.support.annotation.NonNull;
+
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.logs.XTLog;
 import com.xuexiang.xtcp.model.IProtocolItem;
@@ -43,7 +45,7 @@ public class BCD<T> implements IProtocolItem {
     public BCD(Type type, String format) {
         mType = type;
         mFormat = format;
-        int len = calculateLength(format);
+        int len = calculateFormatLength(format);
         mData = new byte[len];
     }
 
@@ -51,7 +53,7 @@ public class BCD<T> implements IProtocolItem {
         mType = type;
         mValue = value;
         mFormat = format;
-        int len = calculateLength(format);
+        int len = calculateFormatLength(format);
         mData = new byte[len];
     }
 
@@ -83,11 +85,14 @@ public class BCD<T> implements IProtocolItem {
             return null;
         }
 
-        if (int.class.equals(mType) || Integer.class.equals(mType)) {
+        if (int.class.equals(mType) || Integer.class.equals(mType) || byte.class.equals(mType)
+                || Byte.class.equals(mType) || short.class.equals(mType) || Short.class.equals(mType)
+                || long.class.equals(mType) || Long.class.equals(mType)) {
             mData = BCDUtils.int2Bcd((Integer) mValue, mFormat);
-        } else if (double.class.equals(mType) || Double.class.equals(mType) || float.class.equals(mType)
-                || Float.class.equals(mType)) {
+        } else if (double.class.equals(mType) || Double.class.equals(mType)) {
             mData = BCDUtils.double2Bcd((Double) mValue, mFormat);
+        } else if (float.class.equals(mType) || Float.class.equals(mType)) {
+            mData = BCDUtils.float2Bcd((Float) mValue, mFormat);
         } else if (String.class.equals(mType)) {
             mData = BCDUtils.string2Bcd((String) mValue);
         } else if (Date.class.equals(mType)) {
@@ -124,8 +129,9 @@ public class BCD<T> implements IProtocolItem {
                 || Byte.class.equals(mType) || short.class.equals(mType) || Short.class.equals(mType)
                 || long.class.equals(mType) || Long.class.equals(mType)) {
             mValue = BCDUtils.bcd2Int(mData);
-        } else if (double.class.equals(mType) || Double.class.equals(mType) || float.class.equals(mType)
-                || Float.class.equals(mType)) {
+        } else if (double.class.equals(mType) || Double.class.equals(mType)) {
+            mValue = BCDUtils.bcd2Double(mData, mFormat);
+        } else if (float.class.equals(mType) || Float.class.equals(mType)) {
             mValue = BCDUtils.bcd2Float(mData, mFormat);
         } else if (String.class.equals(mType)) {
             mValue = BCDUtils.bcd2String(mData);
@@ -136,13 +142,23 @@ public class BCD<T> implements IProtocolItem {
     }
 
     /**
-     * 根据格式计算长度
+     * 计算格式的长度
      *
      * @param format
      * @return
      */
-    private int calculateLength(String format) {
-        return (format.replaceAll("[^a-zA-Z0-9]*", "").length() + 1) / 2;
+    private int calculateFormatLength(String format) {
+        return (formatString(format).length() + 1) / 2;
+    }
+
+    /**
+     * 格式化String, 去除字符串中非字母和数字的字符
+     * @param format
+     * @return
+     */
+    @NonNull
+    private String formatString(String format) {
+        return format.replaceAll("[^a-zA-Z0-9]*", "");
     }
 
     //=======get========//

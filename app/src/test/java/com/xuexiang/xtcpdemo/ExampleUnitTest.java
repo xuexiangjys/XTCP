@@ -39,8 +39,9 @@ public class ExampleUnitTest {
 //        String s = "11,22,33,44,55";
 //        System.out.println(Arrays.toString(s.split(",")));
 
-        BCD<Date> bcd = new BCD<>(Date.class, "yy-MM-dd HH-mm");
-        System.out.println(bcd.getProtocolLength());
+//        BCD<Date> bcd = new BCD<>(Date.class, "yy-MM-dd HH-mm");
+//        System.out.println(bcd.getProtocolLength());
+
 
 
     }

@@ -53,8 +53,14 @@ public class SettingRequest extends XProtocolItem {
     @ProtocolField(index = 12)
     private BCD<Date> time = new BCD<>(Date.class, "yy-MM-dd HH:mm:ss");
     @ProtocolField(index = 13)
-    private FixedString ID = new FixedString(10);
+    private BCD<Integer> number = new BCD<>(Integer.class, "XXX");
     @ProtocolField(index = 14)
+    private BCD<Float> total = new BCD<>(Float.class, "XXXXX.XX");
+    @ProtocolField(index = 15)
+    private BCD<Double> money = new BCD<>(Double.class, "XXXXX.XX");
+    @ProtocolField(index = 16)
+    private FixedString ID = new FixedString(10);
+    @ProtocolField(index = 17)
     private LoginInfoArray loginInfos;
 
     public SettingRequest() {
@@ -126,6 +132,21 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setNumber(int number) {
+        this.number.setValue(number);
+        return this;
+    }
+
+    public SettingRequest setTotal(float total) {
+        this.total.setValue(total);
+        return this;
+    }
+
+    public SettingRequest setMoney(double money) {
+        this.money.setValue(money);
+        return this;
+    }
+
     public SettingRequest setID(String id) {
         ID.setFixedString(id);
         return this;
@@ -152,6 +173,9 @@ public class SettingRequest extends XProtocolItem {
                 ", testItem=" + testItem +
                 ", loginInfo=" + loginInfo +
                 ", time=" + time.getFormatValue() +
+                ", number=" + number.getFormatValue() +
+                ", total=" + total.getFormatValue() +
+                ", money=" + money.getFormatValue() +
                 ", ID=" + ID.getFixedString() +
                 ", loginInfos=" + loginInfos +
                 '}';

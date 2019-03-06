@@ -26,6 +26,7 @@ import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestShortArray;
 import com.xuexiang.xtcpdemo.protocol.test.indefiniteArray.TestStringItem;
 import com.xuexiang.xutil.tip.ToastUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -102,6 +103,7 @@ public class TestFragment extends XPageSimpleListFragment {
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
                 .setLoginInfo(new LoginInfo("xuexiang", "123456"))
+                .setTime(new Date())
                 .setLoginInfos(new LoginInfo("xuexiang1", "222"),
                         new LoginInfo("xuexiang23", "3333"),
                         new LoginInfo("xuexiang456", "44444"))

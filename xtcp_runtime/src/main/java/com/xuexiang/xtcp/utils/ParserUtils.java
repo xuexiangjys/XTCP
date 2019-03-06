@@ -270,7 +270,10 @@ public final class ParserUtils {
                     return false;
                 }
             } else if (IProtocolItem.class.isAssignableFrom(fieldType)) {
-                IProtocolItem item = (IProtocolItem) fieldType.newInstance();
+                IProtocolItem item = (IProtocolItem) field.get(obj);
+                if (item == null) {
+                    item = (IProtocolItem) fieldType.newInstance();
+                }
                 if (item.byte2proto(bytes, offset, tailLength, mode)) {
                     field.set(obj, item);
                     offset += item.getProtocolLength();

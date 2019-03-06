@@ -2,6 +2,7 @@ package com.xuexiang.xtcpdemo.protocol;
 
 import com.xuexiang.xtcp.annotation.Protocol;
 import com.xuexiang.xtcp.annotation.ProtocolField;
+import com.xuexiang.xtcp.core.model.BCD;
 import com.xuexiang.xtcp.core.model.ByteArray;
 import com.xuexiang.xtcp.core.model.IntArray;
 import com.xuexiang.xtcp.core.model.LargeString;
@@ -12,6 +13,8 @@ import com.xuexiang.xtcp.core.model.XProtocolItem;
 import com.xuexiang.xtcpdemo.model.LoginInfo;
 import com.xuexiang.xtcpdemo.model.LoginInfoArray;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
+
+import java.util.Date;
 
 import static com.xuexiang.xtcp.model.ProtocolInfo.byte2HexString;
 
@@ -47,6 +50,8 @@ public class SettingRequest extends XProtocolItem {
     @ProtocolField(index = 11)
     private LoginInfo loginInfo;
     @ProtocolField(index = 12)
+    private BCD<Date> time = new BCD<>(Date.class, "yy-MM-dd HH:mm:ss");
+    @ProtocolField(index = 13)
     private LoginInfoArray loginInfos;
 
     public SettingRequest() {
@@ -113,6 +118,11 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+    public SettingRequest setTime(Date date) {
+        time.setValue(date);
+        return this;
+    }
+
     public SettingRequest setLoginInfos(LoginInfo... loginInfos) {
         this.loginInfos= LoginInfoArray.wrap(loginInfos);
         return this;
@@ -133,6 +143,7 @@ public class SettingRequest extends XProtocolItem {
                 ", string2=" + string2 +
                 ", testItem=" + testItem +
                 ", loginInfo=" + loginInfo +
+                ", time=" + time.getFormatValue() +
                 ", loginInfos=" + loginInfos +
                 '}';
     }

@@ -2,6 +2,7 @@ package com.xuexiang.xtcp.core.model;
 
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IProtocolItem;
+import com.xuexiang.xtcp.utils.BCDUtils;
 
 import java.lang.reflect.Type;
 import java.util.Date;
@@ -21,11 +22,22 @@ import java.util.Date;
  */
 public class BCD<T> implements IProtocolItem {
 
+    /**
+     * byte数据
+     */
     private byte[] mData;
-    private T mValue;
-    private String mFormat;
-
+    /**
+     * 数值
+     */
+    private Object mValue;
+    /**
+     * 数值的类型
+     */
     private Type mType;
+    /**
+     * BCD编码的格式
+     */
+    private String mFormat;
 
     public BCD(Type type, String format) {
         mType = type;
@@ -34,6 +46,18 @@ public class BCD<T> implements IProtocolItem {
         mData = new byte[len];
     }
 
+    public BCD(Type type, T value, String format) {
+        mType = type;
+        mValue = value;
+        mFormat = format;
+        int len = calculateLength(format);
+        mData = new byte[len];
+    }
+
+    /**
+     * 设置值
+     * @param value
+     */
     public void setValue(T value) {
         mValue = value;
     }
@@ -58,15 +82,15 @@ public class BCD<T> implements IProtocolItem {
             return null;
         }
 
-        if ((int.class.equals(mType)) || (Integer.class.equals(mType))) {
-            mData = TBCDUtil.int2bcd((Integer) value, mFormat);
-        } else if ((double.class.equals(mType)) || (Double.class.equals(mType)) || (float.class.equals(mType))
-                || (Float.class.equals(mType))) {
-            mData = TBCDUtil.double2bcd((Double) value, mFormat);
+        if (int.class.equals(mType) || Integer.class.equals(mType)) {
+            mData = BCDUtils.int2Bcd((Integer) mValue, mFormat);
+        } else if (double.class.equals(mType) || Double.class.equals(mType) || float.class.equals(mType)
+                || Float.class.equals(mType)) {
+            mData = BCDUtils.double2Bcd((Double) mValue, mFormat);
         } else if (String.class.equals(mType)) {
-            mData = TBCDUtil.str2bcd((String) value);
+            mData = BCDUtils.string2Bcd((String) mValue);
         } else if (Date.class.equals(mType)) {
-            mData = TBCDUtil.date2bcd((Date) value, mFormat);
+            mData = BCDUtils.date2Bcd((Date) mValue, mFormat);
         }
         return mData;
     }
@@ -82,7 +106,26 @@ public class BCD<T> implements IProtocolItem {
      */
     @Override
     public boolean byte2proto(byte[] bytes, int index, int tailLength, StorageMode storageMode) {
-        return false;
+        if (bytes == null || mData == null) {
+            return false;
+        }
+        System.arraycopy(bytes, index, mData, 0, mData.length);
+        if (mType == null || mFormat == null || mData == null) {
+            return false;
+        }
+        if (int.class.equals(mType) || Integer.class.equals(mType) || byte.class.equals(mType)
+                || Byte.class.equals(mType) || short.class.equals(mType) || Short.class.equals(mType)
+                || long.class.equals(mType) || Long.class.equals(mType)) {
+            mValue = BCDUtils.bcd2Int(mData);
+        } else if (double.class.equals(mType) || Double.class.equals(mType) || float.class.equals(mType)
+                || Float.class.equals(mType)) {
+            mValue = BCDUtils.bcd2Float(mData, mFormat);
+        } else if (String.class.equals(mType)) {
+            mValue = BCDUtils.bcd2String(mData);
+        } else if (Date.class.equals(mType)) {
+            mValue = BCDUtils.bcd2Date(mData, mFormat);
+        }
+        return true;
     }
 
     /**
@@ -102,7 +145,23 @@ public class BCD<T> implements IProtocolItem {
     }
 
     public T getValue() {
-        return mValue;
+        return (T) mValue;
+    }
+
+    /**
+     * @return 获取格式化的值
+     */
+    public String getFormatValue() {
+        if (mType == null || mFormat == null || mValue == null) {
+            return "";
+        }
+        if (String.class.equals(mType)) {
+            return (String) mValue;
+        } else if (Date.class.equals(mType)) {
+            return BCDUtils.date2String((Date) mValue, mFormat);
+        } else {
+            return String.valueOf(mValue);
+        }
     }
 
     public String getFormat() {

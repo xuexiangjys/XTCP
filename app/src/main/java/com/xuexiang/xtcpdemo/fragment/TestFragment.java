@@ -104,6 +104,9 @@ public class TestFragment extends XPageSimpleListFragment {
                         "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
                 .setLoginInfo(new LoginInfo("xuexiang", "123456"))
                 .setTime(new Date())
+                .setNumber(123)
+                .setTotal(12345.67F)
+                .setMoney(23456.78)
                 .setID("1234567890")
                 .setLoginInfos(new LoginInfo("xuexiang1", "222"),
                         new LoginInfo("xuexiang23", "3333"),

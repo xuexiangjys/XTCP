@@ -13,7 +13,7 @@
 
 * 支持byte、short、int、long、byte\[\]、short\[\]、int\[\]、long\[\]、String等常用基础类型，支持类型的拓展
 
-* 支持BCD编码格式。
+* 支持BCD编码格式【时间、int、float、double等】。
 
 * 支持大端和小端两种存储方式，支持设置全局默认存储方式和局部存储方式。
 
@@ -58,8 +58,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.2'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.2'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.3'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.3'
 }
 ```
 
@@ -126,6 +126,16 @@ public class SettingRequest extends XProtocolItem {
     @ProtocolField(index = 11)
     private LoginInfo loginInfo;
     @ProtocolField(index = 12)
+    private BCD<Date> time = new BCD<>(Date.class, "yy-MM-dd HH:mm:ss");
+    @ProtocolField(index = 13)
+    private BCD<Integer> number = new BCD<>(Integer.class, "XXX");
+    @ProtocolField(index = 14)
+    private BCD<Float> total = new BCD<>(Float.class, "XXXXX.XX");
+    @ProtocolField(index = 15)
+    private BCD<Double> money = new BCD<>(Double.class, "XXXXX.XX");
+    @ProtocolField(index = 16)
+    private FixedString ID = new FixedString(10);
+    @ProtocolField(index = 17)
     private LoginInfoArray loginInfos;
 }
 ```
@@ -200,6 +210,11 @@ SettingRequest request = new SettingRequest()
                 "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！" +
                 "我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！我的名字叫薛翔！")
         .setLoginInfo(new LoginInfo("xuexiang", "123456"))
+        .setTime(new Date())
+        .setNumber(123)
+        .setTotal(12345.67F)
+        .setMoney(23456.78)
+        .setID("1234567890")
         .setLoginInfos(new LoginInfo("xuexiang1", "222"),
                 new LoginInfo("xuexiang23", "3333"),
                 new LoginInfo("xuexiang456", "44444"))
@@ -324,7 +339,7 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.2-brightgreen.svg
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.3-brightgreen.svg
 [xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

@@ -3,7 +3,6 @@ package com.xuexiang.xtcp.utils;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -115,6 +114,7 @@ public final class BCDUtils {
                 format.insert(0, "0");
             }
             int allLength = format.length() / 2;
+            len = s.length();
             byte[] resValue = new byte[len / 2];
             for (int i = 0; i <= len - 2; i += 2) {
                 resValue[i / 2] = (byte) ((byte) (s.charAt(i) - '0') * 16 + (byte) (s.charAt(i + 1) - '0'));
@@ -165,7 +165,7 @@ public final class BCDUtils {
      */
     public static byte[] float2Bcd(float value, String format) {
         int point = getPointLength(format);
-        return int2Bcd((int) (value * Math.pow(10, point)), format);
+        return int2Bcd((int) (value * (int)Math.pow(10, point)), format);
     }
 
     /**
@@ -309,17 +309,25 @@ public final class BCDUtils {
         // System.out.println(Arrays.toString(bcd));
         // System.out.println(bcd2double(bcd, "AAA.AA"));
 
-        String format = "yy-MM-dd-HH-mm-ss";
-        Date dOld = new Date();
-        dOld.setMinutes(9);
-        String s = date2String(dOld, format);
-        System.out.println("date2String : " + s);
-        Date d = string2Date(s, format);
-        System.out.println("string2Date : " + d);
-        byte[] bcd = date2Bcd(d, format);// string2Bcd(s, format);
-        System.out.println(Arrays.toString(bcd));
-        System.out.println(bcd2String(bcd));
-        System.out.println(bcd2Date(bcd, format));
+//        String format = "yy-MM-dd-HH-mm-ss";
+//        Date dOld = new Date();
+//        dOld.setMinutes(9);
+//        String s = date2String(dOld, format);
+//        System.out.println("date2String : " + s);
+//        Date d = string2Date(s, format);
+//        System.out.println("string2Date : " + d);
+//        byte[] bcd = date2Bcd(d, format);// string2Bcd(s, format);
+//        System.out.println(Arrays.toString(bcd));
+//        System.out.println(bcd2String(bcd));
+//        System.out.println(bcd2Date(bcd, format));
+
+
+        float value = 12345.67F;
+        System.out.println(value * Math.pow(10, 2));
+
+        double value1 = 12345.67;
+        System.out.println(value1 * Math.pow(10, 2));
+
     }
 
 }

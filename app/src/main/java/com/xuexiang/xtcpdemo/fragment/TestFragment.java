@@ -16,6 +16,7 @@ import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 import com.xuexiang.xtcp.utils.MessageUtils;
 import com.xuexiang.xtcpdemo.model.LoginInfo;
+import com.xuexiang.xtcpdemo.protocol.EmptyRequest;
 import com.xuexiang.xtcpdemo.protocol.SettingRequest;
 import com.xuexiang.xtcpdemo.protocol.test.MessageTest;
 import com.xuexiang.xtcpdemo.protocol.test.TestProtocolItem;
@@ -47,6 +48,7 @@ public class TestFragment extends XPageSimpleListFragment {
         lists.add("测试多个消息包的解析");
         lists.add("测试不定长数组");
         lists.add("性能测试");
+        lists.add("测试空请求");
         return lists;
     }
 
@@ -75,6 +77,9 @@ public class TestFragment extends XPageSimpleListFragment {
                 }
                 ToastUtils.toast("平均耗时：" + time / 30 + "毫秒");
 
+                break;
+            case 6:
+                testEmptyRequest();
                 break;
             default:
                 break;
@@ -292,4 +297,11 @@ public class TestFragment extends XPageSimpleListFragment {
         testString1.byte2proto(bytes, 0, 0, StorageMode.Default);
         Log.e("xuexiang", testString1.toString());
     }
+
+
+    private void testEmptyRequest() {
+        XMessage message = XMessage.wrap(new EmptyRequest());
+        Log.e("xuexiang", "bytes:" + ConvertUtils.bytesToHex(message.msg2Byte()) + ", body:" + message.toString());
+    }
+
 }

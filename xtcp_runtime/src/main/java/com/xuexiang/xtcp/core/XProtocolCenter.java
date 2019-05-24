@@ -1,6 +1,7 @@
 package com.xuexiang.xtcp.core;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.xuexiang.xtcp.model.IProtocolCenter;
 import com.xuexiang.xtcp.model.IProtocolFieldCenter;
@@ -128,15 +129,18 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      */
     @Override
     public byte getOpCodeByClassName(final String className) {
-        return mClass2Info.get(className).getOpCode();
+        ProtocolInfo protocolInfo = mClass2Info.get(className);
+        return protocolInfo != null ? protocolInfo.getOpCode() : -1;
     }
 
     /**
      * 根据类名获取协议字段名集合
      */
     @Override
+    @Nullable
     public Field[] getProtocolFields(final String className) {
-        return mClass2Fields.get(className).getFields();
+        ProtocolFieldInfo protocolFieldInfo = mClass2Fields.get(className);
+        return protocolFieldInfo != null ? protocolFieldInfo.getFields() : null;
     }
 
     @Override
@@ -160,7 +164,7 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param cls
      * @return
      */
-    public Field[] getProtocolFields(@NonNull Class<?> cls) {
+    public Field[] getProtocolFields(final @NonNull Class<?> cls) {
         return getProtocolFields(cls.getCanonicalName());
     }
 
@@ -170,7 +174,9 @@ public class XProtocolCenter implements IProtocolCenter, IProtocolFieldCenter {
      * @param opCode
      * @return
      */
-    public String getClassNameByOpCode(@NonNull byte opCode) {
-        return mOpCode2Info.get(opCode).getClassName();
+    @Nullable
+    public String getClassNameByOpCode(final byte opCode) {
+        ProtocolInfo protocolInfo = mOpCode2Info.get(opCode);
+        return protocolInfo != null ? protocolInfo.getClassName() : null;
     }
 }

@@ -66,11 +66,11 @@ dependencies {
     //工具类
     implementation 'com.github.xuexiangjys.XUtil:xutil-core:1.1.5'
     //切片
-    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.0.1'  //添加依赖
+    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.0.3'  //添加依赖
 
     //XPage
-    implementation 'com.github.xuexiangjys.XPage:xpage-lib:2.2.4'
-    annotationProcessor 'com.github.xuexiangjys.XPage:xpage-compiler:2.2.4'
+    implementation 'com.github.xuexiangjys.XPage:xpage-lib:2.2.6'
+    annotationProcessor 'com.github.xuexiangjys.XPage:xpage-compiler:2.2.6'
     //ButterKnife的sdk
     implementation deps.butterknife.runtime
     annotationProcessor deps.butterknife.compiler

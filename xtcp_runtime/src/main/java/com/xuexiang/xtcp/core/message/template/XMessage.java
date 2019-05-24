@@ -1,5 +1,7 @@
 package com.xuexiang.xtcp.core.message.template;
 
+import android.support.annotation.Nullable;
+
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.message.IMessage;
@@ -7,6 +9,8 @@ import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 import com.xuexiang.xtcp.utils.MessageUtils;
+
+import java.util.Arrays;
 
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_END;
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_HEAD;
@@ -82,6 +86,28 @@ public class XMessage implements IMessage {
      */
     public XMessage(boolean isCheck) {
         mIsCheck = isCheck;
+    }
+
+    /**
+     * 包装协议
+     *
+     * @param protocolItem
+     * @return
+     */
+    public static XMessage wrap(IProtocolItem protocolItem) {
+        return new XMessage().setIProtocolItem(protocolItem);
+    }
+
+    /**
+     * 解析协议
+     *
+     * @param messageData
+     * @return
+     */
+    @Nullable
+    public static XMessage parse(byte[] messageData) {
+        XMessage message = new XMessage();
+        return message.byte2Msg(messageData) ? message : null;
     }
 
     public byte[] msg2Byte() {
@@ -257,5 +283,17 @@ public class XMessage implements IMessage {
         return mFrameEnd;
     }
 
-
+    @Override
+    public String toString() {
+        return "XMessage{" +
+                "mFrameHead=" + ConvertUtils.bytesToHex(mFrameHead) +
+                ", mFrameLength=" + mFrameLength +
+                ", mOpCode=" + mOpCode +
+                ", mIsCheck=" + mIsCheck +
+                ", mCheckSum=" + mCheckSum +
+                ", mRetCode=" + mRetCode +
+                ", mIProtocolItem=" + mIProtocolItem +
+                ", mFrameEnd=" + ConvertUtils.bytesToHex(mFrameEnd) +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.xuexiang.xtcp.core.message.template;
 
+import android.support.annotation.Nullable;
+
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.message.IMessage;
@@ -8,14 +10,16 @@ import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 import com.xuexiang.xtcp.utils.MessageUtils;
 
+import java.util.Arrays;
+
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_END;
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_HEAD;
 
 /**
  * 提供的一套TCP传输协议消息模版（有消息序号ID，有序的）<br>
- *
+ * <p>
  * 格式如下：<br>
- *
+ * <p>
  * 55AA      |   Len   |   OpCode  |    ID    |   CheckSum  | ...data...  |  00FF <br>
  * 帧头 (固定) |   帧长   |   命令码   |  消息ID   |   校验和     |    数据      | 帧尾(固定)
  *
@@ -83,6 +87,29 @@ public class XOrderlyMessage implements IMessage {
      */
     public XOrderlyMessage(boolean isCheck) {
         mIsCheck = isCheck;
+    }
+
+    /**
+     * 包装协议
+     *
+     * @param protocolItem
+     * @param msgID
+     * @return
+     */
+    public static XOrderlyMessage wrap(IProtocolItem protocolItem, int msgID) {
+        return new XOrderlyMessage().setIProtocolItem(protocolItem).setMsgID(msgID);
+    }
+
+    /**
+     * 解析协议
+     *
+     * @param messageData
+     * @return
+     */
+    @Nullable
+    public static XOrderlyMessage parse(byte[] messageData) {
+        XOrderlyMessage message = new XOrderlyMessage();
+        return message.byte2Msg(messageData) ? message : null;
     }
 
     public byte[] msg2Byte() {
@@ -224,7 +251,7 @@ public class XOrderlyMessage implements IMessage {
     }
 
     public XOrderlyMessage setMsgID(short msgID) {
-        mMsgID = (short) msgID;
+        mMsgID = msgID;
         return this;
     }
 
@@ -263,6 +290,17 @@ public class XOrderlyMessage implements IMessage {
         return mFrameEnd;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "XOrderlyMessage{" +
+                "mFrameHead=" + ConvertUtils.bytesToHex(mFrameHead) +
+                ", mFrameLength=" + mFrameLength +
+                ", mOpCode=" + mOpCode +
+                ", mMsgID=" + mMsgID +
+                ", mIsCheck=" + mIsCheck +
+                ", mCheckSum=" + mCheckSum +
+                ", mIProtocolItem=" + mIProtocolItem +
+                ", mFrameEnd=" + ConvertUtils.bytesToHex(mFrameEnd) +
+                '}';
+    }
 }

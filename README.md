@@ -35,7 +35,7 @@
 
 [![downloads](https://img.shields.io/badge/downloads-1.3M-blue.svg)](https://github.com/xuexiangjys/XTCP/blob/master/apk/xtcpdemo_1.0.apk?raw=true)
 
-![](https://github.com/xuexiangjys/XTCP/blob/master/img/download.png)
+![](./img/download.png)
 
 ## 2、如何使用
 
@@ -58,8 +58,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.3'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.3'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.4'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.4'
 }
 ```
 
@@ -339,7 +339,7 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.3-brightgreen.svg
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.4-brightgreen.svg
 [xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

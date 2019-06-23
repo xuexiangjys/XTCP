@@ -11,7 +11,9 @@
 
 * 简单通过`@Protocol`和`@ProtocolField`的配置，即可让实体对象拥有自动转化为TCP传输的byte数据和自动byte数据解析。
 
-* 支持byte、short、int、long、byte\[\]、short\[\]、int\[\]、long\[\]、String等常用基础类型，支持类型的拓展
+* 支持byte、short、int、long、byte\[\]、short\[\]、int\[\]、long\[\]、String等常用基础类型，支持类型的拓展。
+
+* 支持无符号数和有符号数两种。
 
 * 支持BCD编码格式【时间、int、float、double等】。
 
@@ -58,8 +60,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.4'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.4'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.5'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.5'
 }
 ```
 
@@ -137,6 +139,12 @@ public class SettingRequest extends XProtocolItem {
     private FixedString ID = new FixedString(10);
     @ProtocolField(index = 17)
     private LoginInfoArray loginInfos;
+    @ProtocolField(index = 18, unsigned = false)
+    private short signedShort;
+    @ProtocolField(index = 19, unsigned = false)
+    private int signedInt;
+    @ProtocolField(index = 20, unsigned = false)
+    private long signedLong;
 }
 ```
 
@@ -224,7 +232,10 @@ SettingRequest request = new SettingRequest()
                 .setFunc3(6111)
                 .setFunc4((long) 35536234)
                 .setList1(314, 334, 34235, 67584, 45234, 6757)
-                .setLoginInfo(new LoginInfo("xuexiangjys", "111111")));
+                .setLoginInfo(new LoginInfo("xuexiangjys", "111111")))
+        .setSignedShort((short) -678)
+        .setSignedInt(-214)
+        .setSignedLong(-14523L);
 byte[] bytes = request.proto2byte(StorageMode.Default);
 Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 
@@ -303,6 +314,7 @@ desc | String | "" | 描述信息
 index | int | /(必填） | 字段的顺序索引
 isField | boolean | true | 是否为协议解析字段
 length | int | -1 | 协议字段的长度, 不设置的话，默认自动识别
+unsigned | boolean | true | 是否是无符号数
 mode | StorageMode | StorageMode.Default | 数据存储方式（大端 or 小端）
 charset | String | "UTF-8" | 字符集（只对String有效）
 
@@ -339,7 +351,7 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.4-brightgreen.svg
+[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.5-brightgreen.svg
 [xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

@@ -33,6 +33,11 @@ public @interface ProtocolField {
     int length() default -1;
 
     /**
+     * @return 是否是无符号数，默认是true
+     */
+    boolean unsigned() default true;
+
+    /**
      * @return 存储方式
      */
     StorageMode mode() default StorageMode.Default;

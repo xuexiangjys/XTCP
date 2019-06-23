@@ -60,8 +60,8 @@ dependencies {
     implementation project(':xtcp_runtime')
     annotationProcessor project(':xtcp_compiler')
 
-//    implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.2'
-//    annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.2'
+//    implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.3'
+//    annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.3'
 
     //工具类
     implementation 'com.github.xuexiangjys.XUtil:xutil-core:1.1.5'

@@ -13,7 +13,7 @@ import static com.xuexiang.xtcp.core.XTCPConstants.LONG_MAX_LENGTH;
 import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
 
 /**
- * long数组协议项<br>
+ * long数组协议项【无符号】<br>
  * <p>
  * mLength所占的byte位数为1，可表示的长度范围为【0～255】
  *

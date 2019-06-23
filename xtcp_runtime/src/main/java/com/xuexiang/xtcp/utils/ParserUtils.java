@@ -248,15 +248,15 @@ public final class ParserUtils {
                 offset += 1;
             } else if (short.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
-                field.set(obj, ConvertUtils.bytesToShort(mode, bytes, offset, length));
+                field.set(obj, ConvertUtils.bytesToShort(mode, bytes, offset, length, protocolField.unsigned()));
                 offset += length;
             } else if (int.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
-                field.set(obj, ConvertUtils.bytesToInt(mode, bytes, offset, length));
+                field.set(obj, ConvertUtils.bytesToInt(mode, bytes, offset, length, protocolField.unsigned()));
                 offset += length;
             } else if (long.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
-                field.set(obj, ConvertUtils.bytesToLong(mode, bytes, offset, length));
+                field.set(obj, ConvertUtils.bytesToLong(mode, bytes, offset, length, protocolField.unsigned()));
                 offset += length;
             } else if (IArrayItem.class.isAssignableFrom(fieldType)) {  // 使用了包装类定义了数组的长度
                 IArrayItem arrayItem = (IArrayItem) fieldType.newInstance();
@@ -298,7 +298,7 @@ public final class ParserUtils {
                     length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                     short[] temp = new short[leftParseLength / length];
                     for (int i = 0; i < temp.length; i++) {
-                        temp[i] = ConvertUtils.bytesToShort(mode, bytes, offset, length);
+                        temp[i] = ConvertUtils.bytesToShort(mode, bytes, offset, length, protocolField.unsigned());
                         offset += length;
                     }
                     field.set(obj, temp);
@@ -312,7 +312,7 @@ public final class ParserUtils {
                     length = getFieldLength(protocolField, INT_MAX_LENGTH);
                     int[] temp = new int[leftParseLength / length];
                     for (int i = 0; i < temp.length; i++) {
-                        temp[i] = ConvertUtils.bytesToInt(mode, bytes, offset, length);
+                        temp[i] = ConvertUtils.bytesToInt(mode, bytes, offset, length, protocolField.unsigned());
                         offset += length;
                     }
                     field.set(obj, temp);
@@ -327,7 +327,7 @@ public final class ParserUtils {
                     length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                     long[] temp = new long[leftParseLength / length];
                     for (int i = 0; i < temp.length; i++) {
-                        temp[i] = ConvertUtils.bytesToLong(mode, bytes, offset, length);
+                        temp[i] = ConvertUtils.bytesToLong(mode, bytes, offset, length, protocolField.unsigned());
                         offset += length;
                     }
                     field.set(obj, temp);
@@ -364,7 +364,6 @@ public final class ParserUtils {
      * @param offset     解析的偏移
      * @param field      解析的字段
      * @return
-     * @throws IllegalAccessException
      */
     private static int getLeftArrayParseLength(@NonNull Object obj, byte[] bytes, int tailLength, int offset, Field field) throws IllegalAccessException {
         return bytes.length - offset - tailLength - calculateLeftFieldLength(obj, field.getName());
@@ -419,15 +418,15 @@ public final class ParserUtils {
                 offset += 1;
             } else if (short.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
-                ConvertUtils.fillShortToBytes(mode, (short) value, res, offset, length);
+                ConvertUtils.fillShortToBytes(mode, (short) value, res, offset, length, protocolField.unsigned());
                 offset += length;
             } else if (int.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
-                ConvertUtils.fillIntToBytes(mode, (int) value, res, offset, length);
+                ConvertUtils.fillIntToBytes(mode, (int) value, res, offset, length, protocolField.unsigned());
                 offset += length;
             } else if (long.class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
-                ConvertUtils.fillLongToBytes(mode, (long) value, res, offset, length);
+                ConvertUtils.fillLongToBytes(mode, (long) value, res, offset, length, protocolField.unsigned());
                 offset += length;
             } else if (byte[].class.equals(fieldType)) {
                 byte[] tmp = (byte[]) value;
@@ -437,21 +436,21 @@ public final class ParserUtils {
                 length = getFieldLength(protocolField, SHORT_MAX_LENGTH);
                 short[] tmp = (short[]) value;
                 for (short s : tmp) {
-                    ConvertUtils.fillShortToBytes(mode, s, res, offset, length);
+                    ConvertUtils.fillShortToBytes(mode, s, res, offset, length, protocolField.unsigned());
                     offset += length;
                 }
             } else if (int[].class.equals(fieldType)) {
                 length = getFieldLength(protocolField, INT_MAX_LENGTH);
                 int[] tmp = (int[]) value;
                 for (int i : tmp) {
-                    ConvertUtils.fillIntToBytes(mode, i, res, offset, length);
+                    ConvertUtils.fillIntToBytes(mode, i, res, offset, length, protocolField.unsigned());
                     offset += length;
                 }
             } else if (long[].class.equals(fieldType)) {
                 length = getFieldLength(protocolField, LONG_MAX_LENGTH);
                 long[] tmp = (long[]) value;
                 for (long l : tmp) {
-                    ConvertUtils.fillLongToBytes(mode, l, res, offset, length);
+                    ConvertUtils.fillLongToBytes(mode, l, res, offset, length, protocolField.unsigned());
                     offset += length;
                 }
             } else if (String.class.equals(fieldType)) {

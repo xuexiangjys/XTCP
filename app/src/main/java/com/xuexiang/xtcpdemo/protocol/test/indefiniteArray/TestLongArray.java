@@ -19,7 +19,7 @@ public class TestLongArray extends XProtocolItem {
     private byte func1;
     @ProtocolField(index = 1)
     private short func2;
-    @ProtocolField(index = 2)
+    @ProtocolField(index = 2, unsigned = false)
     private long[] longs;
     @ProtocolField(index = 3)
     private int func3;

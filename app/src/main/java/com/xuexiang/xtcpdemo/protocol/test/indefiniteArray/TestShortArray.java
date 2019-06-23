@@ -23,7 +23,7 @@ public class TestShortArray extends XProtocolItem {
     private int func3;
     @ProtocolField(index = 3)
     private long func4;
-    @ProtocolField(index = 4)
+    @ProtocolField(index = 4, unsigned = false)
     private short[] shorts;
 
 

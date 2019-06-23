@@ -62,6 +62,12 @@ public class SettingRequest extends XProtocolItem {
     private FixedString ID = new FixedString(10);
     @ProtocolField(index = 17)
     private LoginInfoArray loginInfos;
+    @ProtocolField(index = 18, unsigned = false)
+    private short signedShort;
+    @ProtocolField(index = 19, unsigned = false)
+    private int signedInt;
+    @ProtocolField(index = 20, unsigned = false)
+    private long signedLong;
 
     public SettingRequest() {
 
@@ -157,6 +163,22 @@ public class SettingRequest extends XProtocolItem {
         return this;
     }
 
+
+    public SettingRequest setSignedShort(short signedShort) {
+        this.signedShort = signedShort;
+        return this;
+    }
+
+    public SettingRequest setSignedInt(int signedInt) {
+        this.signedInt = signedInt;
+        return this;
+    }
+
+    public SettingRequest setSignedLong(long signedLong) {
+        this.signedLong = signedLong;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "SettingRequest{" +
@@ -178,6 +200,9 @@ public class SettingRequest extends XProtocolItem {
                 ", money=" + money.getFormatValue() +
                 ", ID=" + ID.getFixedString() +
                 ", loginInfos=" + loginInfos +
+                ", signedShort=" + signedShort +
+                ", signedInt=" + signedInt +
+                ", signedLong=" + signedLong +
                 '}';
     }
 }

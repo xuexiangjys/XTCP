@@ -122,7 +122,10 @@ public class TestFragment extends XPageSimpleListFragment {
                         .setFunc3(6111)
                         .setFunc4((long) 35536234)
                         .setList1(314, 334, 34235, 67584, 45234, 6757)
-                        .setLoginInfo(new LoginInfo("xuexiangjys", "111111")));
+                        .setLoginInfo(new LoginInfo("xuexiangjys", "111111")))
+                .setSignedShort((short) -678)
+                .setSignedInt(-214)
+                .setSignedLong(-14523L);
         byte[] bytes = request.proto2byte(StorageMode.Default);
         Log.e("xuexiang", ConvertUtils.bytesToHexString(bytes));
 
@@ -247,7 +250,7 @@ public class TestFragment extends XPageSimpleListFragment {
                 .setFunc2((short) 42)
                 .setFunc3(65844)
                 .setFunc4((long) 1213891233)
-                .setShorts(new short[]{(short) 234, (short) 456, (short) 678, (short) 890});
+                .setShorts(new short[]{(short) -234, (short) -456, (short) -678, (short) 890});
         bytes = testShorts.proto2byte(StorageMode.Default);
         Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
 
@@ -261,7 +264,7 @@ public class TestFragment extends XPageSimpleListFragment {
                 .setFunc2((short) 42)
                 .setFunc3(65844)
                 .setFunc4((long) 1213891233)
-                .setInts(new int[]{3451, 31314, 425245, 1314414, 445241});
+                .setInts(new int[]{3451, 31314, -425245, -1314414, 445241});
         bytes = testInts.proto2byte(StorageMode.Default);
         Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
 
@@ -275,7 +278,7 @@ public class TestFragment extends XPageSimpleListFragment {
                 .setFunc2((short) 42)
                 .setFunc3(65844)
                 .setFunc4((long) 1213891233)
-                .setLongs(new long[]{2451568990L, 3567245046L, 3428475095L, 2439078690L, 11235789036L});
+                .setLongs(new long[]{24515689L, 35672450L, -3428475L, 24390786L, -35789036L});
         bytes = testLong.proto2byte(StorageMode.Default);
         Log.e("xuexiang", "bytes: " + ConvertUtils.bytesToHexString(bytes));
 

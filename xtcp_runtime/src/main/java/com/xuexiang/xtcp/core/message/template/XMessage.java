@@ -10,8 +10,6 @@ import com.xuexiang.xtcp.model.IProtocolItem;
 import com.xuexiang.xtcp.utils.ConvertUtils;
 import com.xuexiang.xtcp.utils.MessageUtils;
 
-import java.util.Arrays;
-
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_END;
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_HEAD;
 
@@ -168,22 +166,24 @@ public class XMessage implements IMessage {
         if (messageData.length - getMinMessageLength() > 0) {
             String className = XProtocolCenter.getInstance().getClassNameByOpCode(mOpCode);
             try {
-                Class<?> clazz = Class.forName(className);
-                mIProtocolItem = (IProtocolItem) clazz.newInstance();
-                mIProtocolItem.byte2proto(messageData, 8, 2, storageMode);
+                if (className != null && className.length() > 0) {
+                    Class<?> clazz = Class.forName(className);
+                    mIProtocolItem = (IProtocolItem) clazz.newInstance();
+                    mIProtocolItem.byte2proto(messageData, 8, 2, storageMode);
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
+                    mFrameEnd = new byte[2];
+                    System.arraycopy(messageData, messageData.length - 2, mFrameEnd, 0, mFrameEnd.length);
+                    return true;
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+            return false;
+        } else {
+            mFrameEnd = new byte[2];
+            System.arraycopy(messageData, messageData.length - 2, mFrameEnd, 0, mFrameEnd.length);
+            return true;
         }
-
-        mFrameEnd = new byte[2];
-        System.arraycopy(messageData, messageData.length - 2, mFrameEnd, 0, mFrameEnd.length);
-        return true;
     }
 
     @Override

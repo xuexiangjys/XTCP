@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xuexiang.xtcp.core.buffer;
+package com.xuexiang.xtcp.core.component.buffer;
 
 /**
  * 数据缓冲区错误

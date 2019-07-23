@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xuexiang.xtcp.core.buffer;
+package com.xuexiang.xtcp.core.component.buffer;
 
 /**
  * 缓冲区的实现接口

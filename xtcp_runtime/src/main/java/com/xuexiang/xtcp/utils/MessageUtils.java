@@ -10,6 +10,9 @@ import com.xuexiang.xtcp.enums.StorageMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_END;
+import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_HEAD;
+
 /**
  * 消息工具类
  *
@@ -86,9 +89,9 @@ public final class MessageUtils {
         List<Integer> endIndex = new ArrayList<>();
 
         for (int i = 0; i < data.length - 1; i++) {
-            if (data[i] == (byte) 0x55 && data[i + 1] == (byte) 0xAA) {
+            if (data[i] == DEFAULT_FRAME_HEAD[0] && data[i + 1] == DEFAULT_FRAME_HEAD[1]) {
                 headIndex.add(i);
-            } else if (data[i] == (byte) 0x00 && data[i + 1] == (byte) 0xFF) {
+            } else if (data[i] == DEFAULT_FRAME_END[0] && data[i + 1] == DEFAULT_FRAME_END[1]) {
                 endIndex.add(i);
             }
         }
@@ -121,7 +124,7 @@ public final class MessageUtils {
 
         short checkSum = 0;
         for (byte dataItem : dataBytes) {
-            checkSum += (short) ConvertUtils.byteToIntUnSigned(dataItem);
+            checkSum += ConvertUtils.byteToUnSigned(dataItem);
         }
         return checkSum;
     }
@@ -187,7 +190,7 @@ public final class MessageUtils {
 
         short checkSum = 0;
         for (int index = dataIndex; index < messageData.length - 2; index++) {
-            checkSum += (short) ConvertUtils.byteToIntUnSigned(messageData[index]);
+            checkSum += ConvertUtils.byteToUnSigned(messageData[index]);
         }
         return checkSum;
     }

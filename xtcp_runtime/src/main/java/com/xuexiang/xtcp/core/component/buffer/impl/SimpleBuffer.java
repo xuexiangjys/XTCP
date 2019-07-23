@@ -1,6 +1,6 @@
-package com.xuexiang.xtcp.core.buffer.impl;
+package com.xuexiang.xtcp.core.component.buffer.impl;
 
-import com.xuexiang.xtcp.core.buffer.BufferException;
+import com.xuexiang.xtcp.core.component.buffer.BufferException;
 
 /**
  * 简单实用的环形缓冲区
@@ -9,6 +9,25 @@ import com.xuexiang.xtcp.core.buffer.BufferException;
  * @since 2019-07-23 8:44
  */
 public class SimpleBuffer extends CircularBuffer {
+
+    /**
+     * 获取一个缓冲区
+     *
+     * @return
+     */
+    public static SimpleBuffer get() {
+        return new SimpleBuffer();
+    }
+
+    /**
+     * 获取一个缓冲区
+     *
+     * @param bufferSize 缓冲区大小
+     * @return
+     */
+    public static SimpleBuffer get(int bufferSize) {
+        return new SimpleBuffer(bufferSize);
+    }
 
     /**
      * 构造方法
@@ -20,10 +39,10 @@ public class SimpleBuffer extends CircularBuffer {
     /**
      * 构造方法
      *
-     * @param bufferLength 缓冲区大小
+     * @param bufferSize 缓冲区大小
      */
-    public SimpleBuffer(int bufferLength) {
-        super(bufferLength);
+    public SimpleBuffer(int bufferSize) {
+        super(bufferSize);
     }
 
     /**

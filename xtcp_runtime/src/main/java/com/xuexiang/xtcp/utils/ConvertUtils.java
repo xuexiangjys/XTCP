@@ -28,17 +28,19 @@ import static com.xuexiang.xtcp.core.XTCPConstants.SHORT_MAX_LENGTH;
  * 转换相关工具类
  * (【小端】低位在前，高位在后)
  * (【大端】高位在前，低位在后) 符合我们正常的阅读习惯，在默认情况下，一般都是大端存储。
- *
+ * <p>
  * 1位byte表示数范围 ：
- *      无符号 : 0～256
+ *      无符号 : 0～255
  *      有符号 : -128 ~ 127
+ * <p>
  * 2位byte（short）表示数范围 ：
  *      无符号 : 0～65535
  *      有符号 : -32768（-2的15次方） ~ 32767（2的15次方-1）
+ * <p>
  * 4位byte（int）表示数范围 ：
  *      无符号 : 0～4294967295
  *      有符号 : -2147483648（-2的31次方） ~ 2147483647（2的31次方-1）
- *
+ * <p>
  * @author xuexiang
  * @since 2018/12/11 下午3:30
  */
@@ -116,23 +118,44 @@ public final class ConvertUtils {
     }
 
     /**
-     * 一位byte转int【无符号】
+     * 【有符号】byte转【无符号】byte
      *
-     * @param b
+     * @param value
      * @return 【0 ~ 255】
      */
-    public static int byteToIntUnSigned(byte b) {
-        return b & 0xFF;
+    public static short byteToUnSigned(byte value) {
+        return (short) (value & 0xFF);
+    }
+
+    /**
+     * 【有符号】short转【无符号】short
+     *
+     * @param value
+     * @return 【0 ~ 65535】
+     */
+    public static int shortToUnSigned(short value) {
+        return value & 0xFFFF;
+    }
+
+    /**
+     * 【有符号】int转【无符号】int
+     *
+     * @param value
+     * @return 【0 ~ 4294967295】
+     */
+    public static long intToUnSigned(int value) {
+        return (long) value & 0xFFFFFFFFL;
     }
 
     // ======================【通用方法】=====================================//
+
     /**
      * 按照指定的存储方式来依次读取byte数据
      *
-     * @param mode     存储方式
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
-     * @param length   长度
+     * @param mode   存储方式
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @param length 长度
      * @return
      */
     private static int readBytes(StorageMode mode, @NonNull byte[] src, int offset, int length) {
@@ -155,7 +178,7 @@ public final class ConvertUtils {
         //从低位开始读
         if (StorageMode.LittleEndian.equals(mode)) {
             for (int i = 0; i < length; i++) {
-                if (unsigned || i != length -1) { //最高位为符号位，不能与0xFF
+                if (unsigned || i != length - 1) { //最高位为符号位，不能与0xFF
                     value |= (src[offset + i] & 0xFF) << (8 * i);
                 } else {
                     value |= (src[offset + i]) << (8 * i);
@@ -163,7 +186,7 @@ public final class ConvertUtils {
             }
         } else {
             for (int i = 0; i < length; i++) {
-                if (unsigned || i != length -1) { //最高位为符号位，不能与0xFF
+                if (unsigned || i != length - 1) { //最高位为符号位，不能与0xFF
                     value |= (src[offset + length - i - 1] & 0xFF) << (8 * i);
                 } else {
                     value |= (src[offset + length - i - 1]) << (8 * i);
@@ -176,11 +199,11 @@ public final class ConvertUtils {
     /**
      * 填充数值到byte数组中
      *
-     * @param mode     存储方式
-     * @param value    数值
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
-     * @param length   数值的长度
+     * @param mode   存储方式
+     * @param value  数值
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @param length 数值的长度
      */
     private static void fillValueToBytes(StorageMode mode, int value, @NonNull byte[] src, int offset, int length) {
         fillValueToBytes(mode, value, src, offset, length, true);
@@ -219,9 +242,9 @@ public final class ConvertUtils {
     /**
      * 将值转化为byte数组
      *
-     * @param mode     存储方式
-     * @param value    数值
-     * @param length   数值的长度
+     * @param mode   存储方式
+     * @param value  数值
+     * @param length 数值的长度
      */
     private static byte[] valueToBytes(StorageMode mode, int value, int length) {
         return valueToBytes(mode, value, length, true);
@@ -258,13 +281,14 @@ public final class ConvertUtils {
     }
 
     // ======================【byte数组<-->（无符号）short】=====================================//
+
     /**
      * byte数组中取short数值
      *
-     * @param mode     存储方式
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
-     * @param length   长度
+     * @param mode   存储方式
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @param length 长度
      * @return short数值
      */
     public static short bytesToShort(StorageMode mode, @NonNull byte[] src, int offset, int length) {
@@ -291,9 +315,9 @@ public final class ConvertUtils {
     /**
      * byte数组中取short数值
      *
-     * @param mode     存储方式
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
+     * @param mode   存储方式
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
      * @return short数值
      */
     public static short bytesToShort(StorageMode mode, @NonNull byte[] src, int offset) {
@@ -316,11 +340,11 @@ public final class ConvertUtils {
     /**
      * 将short填充至byte数组中
      *
-     * @param mode     存储方式
-     * @param value    数值
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
-     * @param length   长度
+     * @param mode   存储方式
+     * @param value  数值
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
+     * @param length 长度
      * @return short数值
      */
     public static int fillShortToBytes(StorageMode mode, short value, @NonNull byte[] src, int offset, int length) {
@@ -350,10 +374,10 @@ public final class ConvertUtils {
     /**
      * 将short填充至byte数组中
      *
-     * @param mode     存储方式
-     * @param value    数值
-     * @param src      byte数组
-     * @param offset   从数组的第offset位开始
+     * @param mode   存储方式
+     * @param value  数值
+     * @param src    byte数组
+     * @param offset 从数组的第offset位开始
      * @return short数值
      */
     public static int fillShortToBytes(StorageMode mode, short value, @NonNull byte[] src, int offset) {
@@ -475,7 +499,7 @@ public final class ConvertUtils {
         //从低位开始读
         if (StorageMode.LittleEndian.equals(mode)) {
             for (int i = 0; i < length; i++) {
-                if (unsigned || i != length -1) { //最高位为符号位，不能与0xFF
+                if (unsigned || i != length - 1) { //最高位为符号位，不能与0xFF
                     value |= ((long) src[offset + i] & 0xFF) << (8 * i);
                 } else {
                     value |= ((long) src[offset + i]) << (8 * i);
@@ -483,7 +507,7 @@ public final class ConvertUtils {
             }
         } else {
             for (int i = 0; i < length; i++) {
-                if (unsigned || i != length -1) { //最高位为符号位，不能与0xFF
+                if (unsigned || i != length - 1) { //最高位为符号位，不能与0xFF
                     value |= ((long) src[offset + length - i - 1] & 0xFF) << (8 * i);
                 } else {
                     value |= ((long) src[offset + length - i - 1]) << (8 * i);

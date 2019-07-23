@@ -2,8 +2,11 @@ package com.xuexiang.xtcp;
 
 import android.support.annotation.NonNull;
 
-import com.xuexiang.xtcp.core.parser.IProtocolParser;
 import com.xuexiang.xtcp.core.XProtocolCenter;
+import com.xuexiang.xtcp.core.component.buffer.impl.SimpleBuffer;
+import com.xuexiang.xtcp.core.component.monitor.IMonitor;
+import com.xuexiang.xtcp.core.component.monitor.impl.TimeoutMonitor;
+import com.xuexiang.xtcp.core.parser.IProtocolParser;
 import com.xuexiang.xtcp.core.parser.impl.DefaultProtocolParser;
 import com.xuexiang.xtcp.enums.StorageMode;
 import com.xuexiang.xtcp.logs.ILogger;
@@ -44,6 +47,7 @@ public class XTCP {
     }
 
     //=================初始化设置=========================//
+
     /**
      * 设置协议中心
      *
@@ -89,6 +93,7 @@ public class XTCP {
     }
 
     //=================日志=========================//
+
     /**
      * 设置是否是debug模式
      *
@@ -111,5 +116,34 @@ public class XTCP {
         return this;
     }
 
+    //=================API=========================//
+    /**
+     * 创建一个监控器
+     *
+     * @param interval
+     * @return
+     */
+    public static IMonitor newMonitor(long interval) {
+        return TimeoutMonitor.get(interval);
+    }
+
+    /**
+     * 创建一个缓冲区
+     *
+     * @return
+     */
+    public static SimpleBuffer newBuffer() {
+        return SimpleBuffer.get();
+    }
+
+    /**
+     * 创建一个缓冲区
+     *
+     * @param bufferSize 缓冲区大小
+     * @return
+     */
+    public static SimpleBuffer newBuffer(int bufferSize) {
+        return SimpleBuffer.get(bufferSize);
+    }
 
 }

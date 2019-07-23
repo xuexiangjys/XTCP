@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.xuexiang.xtcp.core.buffer.impl;
+package com.xuexiang.xtcp.core.component.buffer.impl;
 
-import com.xuexiang.xtcp.core.buffer.BufferException;
-import com.xuexiang.xtcp.core.buffer.IBuffer;
+import com.xuexiang.xtcp.core.component.buffer.BufferException;
+import com.xuexiang.xtcp.core.component.buffer.IBuffer;
 
 /**
  * 环形缓冲区，默认大小为2M
@@ -29,7 +29,7 @@ public class CircularBuffer implements IBuffer {
     /**
      * 默认缓冲区的长度为2M
      */
-    public static final int DEFAULT_BUFFER_LENGTH = 2 * 1024 * 1024;
+    public static final int DEFAULT_BUFFER_SIZE = 2 * 1024 * 1024;
     /**
      * 缓冲区
      */
@@ -47,16 +47,16 @@ public class CircularBuffer implements IBuffer {
      * 构造方法
      */
     public CircularBuffer() {
-        this(DEFAULT_BUFFER_LENGTH);
+        this(DEFAULT_BUFFER_SIZE);
     }
 
     /**
      * 构造方法
      *
-     * @param bufferLength 缓冲区大小
+     * @param bufferSize 缓冲区大小
      */
-    public CircularBuffer(int bufferLength) {
-        mBuffer = new byte[bufferLength];
+    public CircularBuffer(int bufferSize) {
+        mBuffer = new byte[bufferSize];
         mStartIndex = 0;
         mValidDataLength = 0;
     }

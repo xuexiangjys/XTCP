@@ -1,5 +1,9 @@
 # XTCP
-[![xtcp][xtcpsvg]][xtcp]  [![api][apisvg]][api]
+
+[![](https://jitpack.io/v/xuexiangjys/XTCP.svg)](https://jitpack.io/#xuexiangjys/XTCP)
+[![api][apisvg]][api]
+[![I](https://img.shields.io/github/issues/xuexiangjys/XTCP.svg)](https://github.com/xuexiangjys/XTCP/issues)
+[![Star](https://img.shields.io/github/stars/xuexiangjys/XTCP.svg)](https://github.com/xuexiangjys/XTCP)
 
 一个便捷的TCP消息包拼装和解析框架
 
@@ -60,8 +64,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.5'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.5'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.6'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.6'
 }
 ```
 
@@ -351,7 +355,5 @@ LargeString | String | 65535
 
 ![](https://github.com/xuexiangjys/XPage/blob/master/img/qq_group.jpg)
 
-[xtcpsvg]: https://img.shields.io/badge/XTCP-v1.0.5-brightgreen.svg
-[xtcp]: https://github.com/xuexiangjys/XTCP
 [apisvg]: https://img.shields.io/badge/API-14+-brightgreen.svg
 [api]: https://android-arsenal.com/api?level=14

@@ -120,11 +120,22 @@ public class XTCP {
     /**
      * 创建一个监控器
      *
-     * @param interval
+     * @param interval 监控器检查的间期
      * @return
      */
     public static IMonitor newMonitor(long interval) {
         return TimeoutMonitor.get(interval);
+    }
+
+    /**
+     * 创建一个监控器
+     *
+     * @param targetName 监听目标的名称
+     * @param interval   监控器检查的间期
+     * @return
+     */
+    public static IMonitor newMonitor(String targetName, long interval) {
+        return TimeoutMonitor.get(targetName, interval);
     }
 
     /**

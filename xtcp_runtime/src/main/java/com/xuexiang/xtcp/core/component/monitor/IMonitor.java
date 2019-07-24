@@ -40,6 +40,20 @@ public interface IMonitor {
     void processWork();
 
     /**
+     * 处理监听工作，并更改监听对象
+     *
+     * @param targetName
+     */
+    void processWork(String targetName);
+
+    /**
+     * 处理监听工作，并更改监听对象和监听间期
+     *
+     * @param targetName
+     */
+    void processWork(String targetName, long interval);
+
+    /**
      * @return 是否在工作
      */
     boolean isWorking();

@@ -60,7 +60,18 @@ public class TimeoutMonitor extends Thread implements IMonitor {
     /**
      * 获得超时监控器
      *
-     * @param interval
+     * @param targetName 监听目标的名称
+     * @param interval   监控器检查的间期
+     * @return
+     */
+    public static TimeoutMonitor get(String targetName, long interval) {
+        return new TimeoutMonitor(targetName, interval);
+    }
+
+    /**
+     * 获得超时监控器
+     *
+     * @param interval 监控器检查的间期
      * @return
      */
     public static TimeoutMonitor get(long interval) {
@@ -133,6 +144,19 @@ public class TimeoutMonitor extends Thread implements IMonitor {
     @Override
     public void processWork() {
         mCount = 0;
+    }
+
+    @Override
+    public void processWork(String targetName) {
+        mCount = 0;
+        mTargetName = targetName;
+    }
+
+    @Override
+    public void processWork(String targetName, long interval) {
+        mCount = 0;
+        mTargetName = targetName;
+        mInterval = interval;
     }
 
     @Override

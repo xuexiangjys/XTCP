@@ -64,8 +64,8 @@ allprojects {
 ```
 dependencies {
   ...
-  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.6'
-  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.6'
+  implementation 'com.github.xuexiangjys.XTCP:xtcp_runtime:1.0.7'
+  annotationProcessor 'com.github.xuexiangjys.XTCP:xtcp_compiler:1.0.7'
 }
 ```
 

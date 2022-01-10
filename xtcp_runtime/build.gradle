@@ -13,11 +13,12 @@ android {
                 arguments = [ moduleName : "XTCP" ]
             }
         }
+        consumerProguardFiles "proguard-rules.pro"
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -28,7 +29,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compileOnly deps.support.app_compat
+    compileOnly deps.androidx.appcompat
 
     api project(':xtcp_annotation')
     annotationProcessor project(':xtcp_compiler')

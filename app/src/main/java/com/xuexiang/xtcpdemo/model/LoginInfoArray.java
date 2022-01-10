@@ -1,14 +1,14 @@
 package com.xuexiang.xtcpdemo.model;
 
-import android.support.annotation.NonNull;
+import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
+
+import androidx.annotation.NonNull;
 
 import com.xuexiang.xtcp.annotation.ProtocolField;
 import com.xuexiang.xtcp.core.model.AbstractArrayItem;
 import com.xuexiang.xtcp.enums.StorageMode;
 
 import java.util.Arrays;
-
-import static com.xuexiang.xtcp.core.XTCPConstants.MAX_ARRAY_LENGTH;
 
 /**
  * 自定义协议数组【由于自定义的协议，其数组的类型不可知，故无法封装，只能自定义协议包装体】

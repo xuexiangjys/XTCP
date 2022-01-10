@@ -1,6 +1,6 @@
 package com.xuexiang.xtcp.core.parser;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.xuexiang.xtcp.enums.StorageMode;
 

@@ -1,6 +1,6 @@
 package com.xuexiang.xtcp;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.component.buffer.impl.SimpleBuffer;

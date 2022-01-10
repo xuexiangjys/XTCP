@@ -1,6 +1,6 @@
 package com.xuexiang.xtcp.core.model;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.annotation.ProtocolField;

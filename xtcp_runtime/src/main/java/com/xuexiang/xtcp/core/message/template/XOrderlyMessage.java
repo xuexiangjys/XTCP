@@ -1,7 +1,5 @@
 package com.xuexiang.xtcp.core.message.template;
 
-import android.support.annotation.Nullable;
-
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.core.XProtocolCenter;
 import com.xuexiang.xtcp.core.message.IMessage;
@@ -12,6 +10,8 @@ import com.xuexiang.xtcp.utils.MessageUtils;
 
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_END;
 import static com.xuexiang.xtcp.core.message.MessageConstants.DEFAULT_FRAME_HEAD;
+
+import androidx.annotation.Nullable;
 
 /**
  * 提供的一套TCP传输协议消息模版（有消息序号ID，有序的）<br>

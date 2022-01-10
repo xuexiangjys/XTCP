@@ -1,7 +1,7 @@
 package com.xuexiang.xtcp.utils;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.xuexiang.xtcp._XTCP;
 import com.xuexiang.xtcp.core.message.IMessage;

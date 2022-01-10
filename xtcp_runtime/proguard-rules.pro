@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# xtcp
+-keep @com.xuexiang.xtcp.annotation.* class * {*;}
+-keep class * {
+    @com.xuexiang.xtcp.annotation.* <fields>;
+}
+-keepclassmembers class * {
+    @com.xuexiang.xtcp.annotation.* <methods>;
+}
